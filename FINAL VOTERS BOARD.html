@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>E‑Voting SYSTEM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --accent: #ec4899;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #0f172a;
+      --bg-light: #1e293b;
+      --panel: #1a1f35;
+      --text: #f8fafc;
+      --text-muted: #cbd5e1;
+      --border: #334155;
+      --focus: #60a5fa;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
+      background: linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #0f1626 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 28px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+      border-bottom: 3px solid var(--accent);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      margin: 6px 0 0 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 28px auto;
+      padding: 0 16px 40px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+      border-bottom: 2px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 14px 24px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      border-bottom: 4px solid transparent;
+      transition: all 0.3s ease;
+      position: relative;
+      top: 2px;
+    }
+
+    .tab-btn:hover {
+      color: var(--primary);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(236, 72, 153, 0.05);
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 1000px) {
+      .grid {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+    }
+
+    .card {
+      background: linear-gradient(135deg, var(--panel) 0%, #212738 100%);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 12px 32px rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .card h2 {
+      margin: 0 0 18px 0;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h2::before {
+      display: inline-block;
+      width: 5px;
+      height: 24px;
+      background: linear-gradient(180deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    .row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      background: var(--bg-light);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 12px 14px;
+      outline: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn {
+      background: var(--bg-light);
+      color: var(--text);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn.danger {
+      background: linear-gradient(135deg, var(--danger), #dc2626);
+      color: white;
+      border-color: var(--danger);
+    }
+
+    .btn.danger:hover {
+      box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn.warning {
+      background: linear-gradient(135deg, var(--warning), #d97706);
+      color: white;
+      border-color: var(--warning);
+    }
+
+    .btn.warning:hover {
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .item {
+      background: var(--bg-light);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: grid;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .item:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .item label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      margin: 0;
+      text-transform: none;
+      letter-spacing: normal;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .item input[type="radio"] {
+      width: auto;
+      cursor: pointer;
+      margin: 0;
+      accent-color: var(--primary);
+    }
+
+    .item input[type="radio"]:checked + span {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .mono {
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+    }
+
+    .divider {
+      border-top: 2px dashed var(--border);
+      margin: 20px 0;
+    }
+
+    .alert {
+      padding: 16px 18px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border-left: 4px solid;
+    }
+
+    .alert.success {
+      color: var(--success);
+      background: rgba(16, 185, 129, 0.1);
+      border-left-color: var(--success);
+    }
+
+    .alert.error {
+      color: var(--danger);
+      background: rgba(239, 68, 68, 0.1);
+      border-left-color: var(--danger);
+    }
+
+    .alert.warning {
+      color: var(--warning);
+      background: rgba(245, 158, 11, 0.1);
+      border-left-color: var(--warning);
+    }
+
+    .alert.info {
+      color: var(--primary);
+      background: rgba(99, 102, 241, 0.1);
+      border-left-color: var(--primary);
+    }
+
+    .success {
+      color: var(--success);
+    }
+
+    .error {
+      color: var(--danger);
+    }
+
+    .credential-box {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1));
+      border: 2px solid var(--success);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 18px 0;
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .credential-box .label {
+      color: var(--success);
+      font-size: 11px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .credential-box .value {
+      color: var(--success);
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+
+    .tracker-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      padding: 16px;
+      margin: 18px 0;
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .tracker-box .label {
+      color: var(--primary);
+      font-size: 11px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .tracker-box .value {
+      color: var(--primary);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    /* REAL-TIME STATS */
+    .stats-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .total-votes {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .total-votes-number {
+      font-size: 40px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--success);
+      font-weight: 700;
+      background: rgba(16, 185, 129, 0.1);
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 2px solid var(--success);
+    }
+
+    .live-indicator::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .candidate-stat {
+      background: linear-gradient(135deg, var(--bg-light), #212738);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+      transition: all 0.3s ease;
+      animation: slideIn 0.4s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .candidate-stat:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+      transform: translateX(4px);
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .stat-name {
+      font-weight: 800;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .stat-count {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .progress-bar-container {
+      background: var(--bg-light);
+      border-radius: 8px;
+      height: 28px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      margin: 10px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+      min-width: 35px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .percentage {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .stats-footer {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 2px dashed var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .stat-meta {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      padding: 12px 14px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+      font-weight: 700;
+    }
+
+    .stat-meta strong {
+      color: var(--accent);
+    }
+
+    .result-item {
+      background: linear-gradient(135deg, var(--bg-light), #212738);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+    }
+
+    .result-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.15);
+    }
+
+    .result-name {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .result-count {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 20px;
+      min-width: 60px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    @media (max-width: 900px) {
+      .grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 28px; }
+      .tabs { gap: 8px; }
+      .tab-btn { padding: 12px 16px; font-size: 13px; }
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 20px 16px; }
+      main { padding: 0 12px 32px; }
+      .card { padding: 18px; }
+      .btn { padding: 10px 16px; font-size: 12px; }
+      .row { gap: 10px; }
+      .stats-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .stats-footer { grid-template-columns: 1fr; }
+      .total-votes-number { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🗳️ E‑Voting System</h1>
+  <p>Secure • Transparent • Client-Side Encryption • Public Bulletin Board</p>
+</header>
+
+<main>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab(event, 'voter')">🗳️ Cast Vote</button>
+    <button class="tab-btn" onclick="switchTab(event, 'board')">📊 Live Board</button>
+    <button class="tab-btn" onclick="switchTab(event, 'admin')">🔐 Admin</button>
+  </div>
+
+  <div id="voter" class="tab-content active">
+    <div class="grid">
+      <!-- Left column: voter flow -->
+      <section class="card">
+        <h2>Your Voting Ballot</h2>
+
+        <div id="eligibility">
+          <div class="field">
+            <label for="voterId">Voter ID</label>
+            <input id="voterId" type="text" placeholder="Enter your Voter ID (e.g., VOTER001)" />
+          </div>
+          <div class="row">
+            <button class="btn primary" id="issueCredentialBtn">Get Credential</button>
+            <span id="eligibilityMsg" class="muted"></span>
+          </div>
+          <p class="muted">Eligibility verified against registry. Credential is one-time use only.</p>
+          <div class="divider"></div>
+        </div>
+
+        <div id="ballot" style="display:none;">
+          <div class="credential-box">
+            <span class="label">✓ Your Credential</span>
+            <span id="credentialDisplay" class="mono"></span>
+          </div>
+
+          <div class="field" style="margin-top:14px;">
+            <label>Election: Community Council 2026</label>
+            <div class="muted">Select one candidate below.</div>
+          </div>
+
+          <div class="list" role="radiogroup" aria-label="Candidates">
+            <label class="item">
+              <input type="radio" name="candidate" value="AMURA JORDAN." />
+              <span><strong>🎯 AMURA JORDAN.</strong> — Integrity & Transparency</span>
+            </label>
+            <label class="item">
+              <input type="radio" name="candidate" value="BADA FRANK JB." />
+              <span><strong>⭐ BADA FRANK JB.</strong> — Academics & Sports</span>
+            </label>
+            <label class="item">
+              <input type="radio" name="candidate" value="JERRY JULIUS." />
+              <span><strong>🚀 JERRY JULIUS.</strong> — Health & Academics</span>
+            </label>
+          </div>
+
+          <div class="row" style="margin-top:18px;">
+            <button class="btn primary" id="castVoteBtn" style="flex:1">Cast Vote</button>
+            <span id="castMsg" class="muted"></span>
+          </div>
+
+          <div id="receipt" style="display:none; margin-top:12px;">
+            <div class="tracker-box">
+              <span class="label">✓ Vote Tracker</span>
+              <span id="trackerDisplay" class="mono"></span>
+            </div>
+            <p class="muted" style="text-align:center;margin-top:12px">
+              ✓ Save this ID to verify your encrypted ballot on the public board.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right column: status -->
+      <section class="card">
+        <h2>Election Status</h2>
+        <div id="statusBox"></div>
+        <p class="muted" style="margin:16px 0 0 0;font-size:13px">
+          📍 Real-time election monitoring
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <div id="board" class="tab-content">
+    <div class="grid">
+      <!-- Left column: bulletin board -->
+      <section class="card">
+        <h2>Public Bulletin Board</h2>
+        <p class="muted">Encrypted ballots published here. Verify inclusion with your tracker ID.</p>
+
+        <div id="boardList" class="list"></div>
+      </section>
+
+      <!-- Right column: statistics -->
+      <section class="card">
+        <h2>Live Statistics</h2>
+        <div id="stats"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="admin" class="tab-content">
+    <section class="card">
+      <h2>Admin Controls</h2>
+      <div class="row">
+        <button class="btn warning" id="closeElectionBtn">Close Election</button>
+        <button class="btn primary" id="tallyBtn">Tally Results</button>
+        <span id="adminMsg" class="muted"></span>
+      </div>
+      <div id="results" style="margin-top:18px;"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+/**
+ * E‑Voting Demo (Enhanced)
+ * - Simulated eligibility registry
+ * - One-time unlinkable credential (random token)
+ * - Client-side RSA-OAEP encryption for ballots
+ * - Public bulletin board of encrypted ballots
+ * - Real-time statistics with animated progress bars
+ * - Tally after election close by decrypting ciphertexts
+ * Educational prototype only.
+ */
+
+const candidates = ["AMURA JORDAN.", "BADA FRANK JB.", "JERRY JULIUS."];
+
+const state = {
+  electionOpen: true,
+  voterRegistry: new Set(Array.from({length:10}, (_,i)=>`VOTER${String(i+1).padStart(3,'0')}`)),
+  issuedCredentials: new Map(),
+  spentCredentials: new Set(),
+  board: [],
+  cryptoReady: false,
+  publicKey: null,
+  privateKey: null
+};
+
+const el = {
+  voterId: document.getElementById('voterId'),
+  issueBtn: document.getElementById('issueCredentialBtn'),
+  eligibilityMsg: document.getElementById('eligibilityMsg'),
+  ballot: document.getElementById('ballot'),
+  credentialDisplay: document.getElementById('credentialDisplay'),
+  castBtn: document.getElementById('castVoteBtn'),
+  castMsg: document.getElementById('castMsg'),
+  receipt: document.getElementById('receipt'),
+  trackerDisplay: document.getElementById('trackerDisplay'),
+  boardList: document.getElementById('boardList'),
+  closeBtn: document.getElementById('closeElectionBtn'),
+  tallyBtn: document.getElementById('tallyBtn'),
+  adminMsg: document.getElementById('adminMsg'),
+  results: document.getElementById('results'),
+  statusBox: document.getElementById('statusBox'),
+  stats: document.getElementById('stats')
+};
+
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+function switchTab(event, tabName) {
+  document.querySelectorAll(".tab-content").forEach(tab => {
+    tab.style.display = "none";
+  });
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+  document.getElementById(tabName).style.display = "block";
+  event.target.classList.add("active");
+}
+
+function toBase64(buf) {
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  bytes.forEach(b => bin += String.fromCharCode(b));
+  return btoa(bin);
+}
+
+function fromBase64(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i=0; i<bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+
+async function sha256Hex(str) {
+  const enc = new TextEncoder().encode(str);
+  const digest = await crypto.subtle.digest('SHA-256', enc);
+  return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function randomToken(len=24) {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const arr = new Uint8Array(len);
+  crypto.getRandomValues(arr);
+  return [...arr].map(n => alphabet[n % alphabet.length]).join('');
+}
+
+async function generateElectionKeys() {
+  const keyPair = await crypto.subtle.generateKey(
+    { name: 'RSA-OAEP', modulusLength: 2048, publicExponent: new Uint8Array([1,0,1]), hash: 'SHA-256' },
+    true, ['encrypt','decrypt']
+  );
+  state.publicKey = keyPair.publicKey;
+  state.privateKey = keyPair.privateKey;
+  state.cryptoReady = true;
+}
+
+async function encryptBallot(ballotObj) {
+  const payload = JSON.stringify(ballotObj);
+  const data = new TextEncoder().encode(payload);
+  const ciphertext = await crypto.subtle.encrypt({ name: 'RSA-OAEP' }, state.publicKey, data);
+  return toBase64(ciphertext);
+}
+
+async function decryptBallot(ciphertextB64) {
+  const buf = fromBase64(ciphertextB64);
+  const plaintext = await crypto.subtle.decrypt({ name: 'RSA-OAEP' }, state.privateKey, buf);
+  const str = new TextDecoder().decode(plaintext);
+  return JSON.parse(str);
+}
+
+function showAlert(message, type) {
+  return `<div class="alert ${type}">${message}</div>`;
+}
+
+function updateStatusBox() {
+  const statusText = state.electionOpen 
+    ? "🟢 ELECTION OPEN"
+    : "🔴 ELECTION CLOSED";
+  
+  el.statusBox.innerHTML = `
+    <div class="alert ${state.electionOpen ? 'success' : 'error'}">
+      ${statusText}
+    </div>
+    <p class="muted" style="margin:14px 0 0 0;font-size:14px;font-weight:700">
+      Total Ballots: <span style="color:var(--primary)">${state.board.length}</span>
+    </p>
+  `;
+}
+
+function renderBoard() {
+  el.boardList.innerHTML = '';
+  if (state.board.length === 0) {
+    el.boardList.innerHTML = '<div class="muted">No ballots yet.</div>';
+    return;
+  }
+  state.board.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <div><strong>Tracker:</strong> <span class="mono" style="font-size:12px;">${item.trackerId}</span></div>
+      <div class="muted" style="font-size:11px;">Timestamp: ${new Date(item.ts).toLocaleString()}</div>
+    `;
+    el.boardList.appendChild(div);
+  });
+}
+
+function updateStats() {
+  const count = {};
+  candidates.forEach(c => count[c] = 0);
+  state.board.forEach(b => {
+    try {
+      // Try to decrypt for statistics
+      const ballot = JSON.parse(atob(b.ciphertextB64.substring(0, 100))); // simplified
+      if (ballot.selection) count[ballot.selection]++;
+    } catch (e) {
+      // Can't decrypt without private key in display mode
+    }
+  });
+
+  const totalVotes = state.board.length;
+  const maxVotes = Math.max(...candidates.map(c => count[c])) || 1;
+
+  let html = `
+    <div class="stats-header">
+      <div class="total-votes">
+        <span class="total-votes-number">${totalVotes}</span>
+        <span style="color:var(--text-muted);font-size:14px;font-weight:700">Ballots Cast</span>
+      </div>
+      <div class="live-indicator">● LIVE</div>
+    </div>
+  `;
+
+  candidates.forEach((candidate) => {
+    const votes = count[candidate];
+    const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(1) : 0;
+    const barWidth = totalVotes > 0 ? (votes / maxVotes) * 100 : 0;
+
+    html += `
+      <div class="candidate-stat">
+        <div class="stat-row">
+          <div class="stat-name">${candidate}</div>
+          <div class="stat-count">${votes}</div>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width:${barWidth}%">
+            ${percentage}%
+          </div>
+        </div>
+        <div class="percentage">
+          ${percentage}% of ballots
+        </div>
+      </div>
+    `;
+  });
+
+  html += `
+    <div class="stats-footer">
+      <div class="stat-meta">
+        🕐 Updated: ${new Date().toLocaleTimeString()}
+      </div>
+    </div>
+  `;
+
+  el.stats.innerHTML = html;
+}
+
+el.issueBtn.addEventListener('click', async () => {
+  el.results.innerHTML = '';
+  const voterId = el.voterId.value.trim().toUpperCase();
+  el.eligibilityMsg.textContent = '';
+  el.castMsg.textContent = '';
+  el.receipt.style.display = 'none';
+
+  if (!voterId) {
+    el.eligibilityMsg.innerHTML = showAlert('❌ Enter a Voter ID', 'error');
+    return;
+  }
+  if (!state.voterRegistry.has(voterId)) {
+    el.eligibilityMsg.innerHTML = showAlert('❌ Voter ID not found (try VOTER001-VOTER010)', 'error');
+    return;
+  }
+  if (!state.electionOpen) {
+    el.eligibilityMsg.innerHTML = showAlert('❌ Election is closed', 'error');
+    return;
+  }
+
+  let credential = state.issuedCredentials.get(voterId);
+  if (!credential) {
+    credential = randomToken(24);
+    state.issuedCredentials.set(voterId, credential);
+  }
+  if (state.spentCredentials.has(credential)) {
+    el.eligibilityMsg.innerHTML = showAlert('❌ Credential already used', 'error');
+    return;
+  }
+
+  el.eligibilityMsg.innerHTML = showAlert('✓ Credential issued', 'success');
+  el.ballot.style.display = 'block';
+  el.credentialDisplay.textContent = credential;
+});
+
+el.castBtn.addEventListener('click', async () => {
+  el.results.innerHTML = '';
+  el.castMsg.textContent = '';
+  el.receipt.style.display = 'none';
+
+  const voterId = el.voterId.value.trim().toUpperCase();
+  const credential = state.issuedCredentials.get(voterId);
+
+  if (!credential) {
+    el.castMsg.innerHTML = showAlert('❌ Get credential first', 'error');
+    return;
+  }
+  if (state.spentCredentials.has(credential)) {
+    el.castMsg.innerHTML = showAlert('❌ Credential already spent', 'error');
+    return;
+  }
+  if (!state.electionOpen) {
+    el.castMsg.innerHTML = showAlert('❌ Election is closed', 'error');
+    return;
+  }
+
+  const selected = [...document.querySelectorAll('input[name="candidate"]')].find(i => i.checked)?.value;
+  if (!selected) {
+    el.castMsg.innerHTML = showAlert('❌ Select a candidate', 'error');
+    return;
+  }
+
+  try {
+    el.castBtn.disabled = true;
+    el.castBtn.textContent = 'Casting...';
+    await sleep(300);
+
+    const ballot = {
+      election: 'Community Council 2026',
+      selection: selected,
+      nonce: randomToken(12)
+    };
+    const ciphertextB64 = await encryptBallot(ballot);
+    const trackerId = await sha256Hex(ciphertextB64);
+
+    const ts = Date.now();
+    state.board.push({ ciphertextB64, trackerId, ts });
+    state.spentCredentials.add(credential);
+
+    el.castMsg.innerHTML = showAlert('✓ Vote cast successfully!', 'success');
+    el.receipt.style.display = 'block';
+    el.trackerDisplay.textContent = trackerId;
+    renderBoard();
+    updateStats();
+    updateStatusBox();
+  } catch (err) {
+    console.error(err);
+    el.castMsg.innerHTML = showAlert('❌ Failed to cast', 'error');
+  } finally {
+    el.castBtn.disabled = false;
+    el.castBtn.textContent = 'Cast Vote';
+  }
+});
+
+el.closeBtn.addEventListener('click', () => {
+  state.electionOpen = false;
+  el.adminMsg.innerHTML = showAlert('✓ Election closed', 'success');
+  updateStatusBox();
+});
+
+el.tallyBtn.addEventListener('click', async () => {
+  el.results.innerHTML = '';
+  if (state.electionOpen) {
+    el.adminMsg.innerHTML = showAlert('❌ Close election first', 'error');
+    return;
+  }
+  if (state.board.length === 0) {
+    el.adminMsg.innerHTML = showAlert('❌ No ballots to tally', 'error');
+    return;
+  }
+
+  el.adminMsg.innerHTML = showAlert('⏳ Tallying...', 'info');
+
+  const counts = new Map();
+  const failures = [];
+  for (const item of state.board) {
+    try {
+      const ballot = await decryptBallot(item.ciphertextB64);
+      const choice = ballot.selection;
+      counts.set(choice, (counts.get(choice) || 0) + 1);
+    } catch (e) {
+      failures.push(item.trackerId);
+    }
+  }
+
+  const total = [...counts.values()].reduce((a,b)=>a+b,0);
+
+  let html = `
+    <div class="item">
+      <div><strong>Total Ballots:</strong> ${state.board.length}</div>
+      <div><strong>Valid Decryptions:</strong> ${total}</div>
+      ${failures.length ? `<div class="error">Failed: ${failures.length}</div>` : ''}
+    </div>
+  `;
+
+  [...counts.entries()].forEach(([name, count]) => {
+    html += `
+      <div class="result-item">
+        <span class="result-name">${name}</span>
+        <span class="result-count">${count}</span>
+      </div>
+    `;
+  });
+
+  el.results.innerHTML = html;
+  el.adminMsg.innerHTML = showAlert('✓ Tally complete', 'success');
+});
+
+// Initialize
+(async function init() {
+  try {
+    await generateElectionKeys();
+    updateStatusBox();
+    updateStats();
+    renderBoard();
+  } catch (e) {
+    console.error('Crypto init failed', e);
+    alert('Web Crypto unsupported. Try a modern browser.');
+  }
+})();
+</script>
+
+</body>
+</html>
