@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>E-Voting System - Voter Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --primary: #6366f1;
+      --secondary: #8b5cf6;
+      --accent: #ec4899;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --bg: #0f172a;
+      --bg-light: #1e293b;
+      --panel: #1a1f35;
+      --text: #f8fafc;
+      --text-muted: #cbd5e1;
+      --border: #334155;
+      --focus: #60a5fa;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
+      background: linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #0f1626 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 28px 24px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
+      border-bottom: 3px solid var(--accent);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      letter-spacing: -0.5px;
+    }
+
+    header p {
+      margin: 6px 0 0 0;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 28px auto;
+      padding: 0 16px 40px;
+    }
+
+    .card {
+      background: linear-gradient(135deg, var(--panel) 0%, #212738 100%);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    }
+
+    .card h2 {
+      margin: 0 0 18px 0;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h2::before {
+      display: inline-block;
+      width: 5px;
+      height: 24px;
+      background: linear-gradient(180deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    .row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 800;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      background: var(--bg-light);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 12px 14px;
+      outline: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .btn {
+      background: var(--bg-light);
+      color: var(--text);
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .btn.primary:hover {
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .item {
+      background: var(--bg-light);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .item:hover {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .item input[type="radio"] {
+      cursor: pointer;
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .item strong {
+      color: var(--accent);
+    }
+
+    .divider {
+      border-top: 2px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .receipt {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+      border: 2px solid var(--success);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+
+    .receipt-title {
+      color: var(--success);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .receipt-id {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: monospace;
+      font-size: 13px;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    .success-msg {
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .error-msg {
+      color: var(--danger);
+      font-weight: 700;
+    }
+
+    .info-box {
+      background: rgba(96, 165, 250, 0.05);
+      border: 2px solid var(--focus);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .status-open {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--success);
+    }
+
+    .status-closed {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--danger);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🗳️ E-Voting System</h1>
+  <p>Voter Portal - Cast Your Vote Securely</p>
+  <div class="badge">🔒 VOTER ACCESS ONLY</div>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Voter Credential & Ballot</h2>
+
+    <div id="eligibility">
+      <div class="field">
+        <label for="voterId">Voter ID</label>
+        <input id="voterId" type="text" placeholder="Enter your Voter ID (e.g., VOTER001)" />
+      </div>
+      <div class="row">
+        <button class="btn primary" id="issueCredentialBtn">Get Voting Credential</button>
+        <span id="eligibilityMsg" class="info-box" style="margin: 0; flex: 1;"></span>
+      </div>
+      <div class="info-box">
+        ✓ Your credential is single-use and unlinkable to your ballot
+      </div>
+    </div>
+
+    <div id="ballot" style="display:none;">
+      <div class="divider"></div>
+      <div class="pill">
+        <span>🔐 Your Credential</span>
+        <span id="credentialDisplay" style="font-family: monospace; color: var(--accent);"></span>
+      </div>
+
+      <div class="field" style="margin-top: 20px;">
+        <label>📋 Community Council 2026 Election</label>
+        <div class="info-box">Select one candidate. Your vote is encrypted on the public bulletin board.</div>
+      </div>
+
+      <div class="list" role="radiogroup" aria-label="Candidates">
+        <label class="item">
+          <div style="display: flex; align-items: center;">
+            <input type="radio" name="candidate" value="AMURA JORDAN." id="cand1" />
+            <span><strong>AMURA JORDAN.</strong> — Integrity & Transparency</span>
+          </div>
+        </label>
+        <label class="item">
+          <div style="display: flex; align-items: center;">
+            <input type="radio" name="candidate" value="BADA FRANK JB." id="cand2" />
+            <span><strong>BADA FRANK JB.</strong> — Academics & Sports</span>
+          </div>
+        </label>
+        <label class="item">
+          <div style="display: flex; align-items: center;">
+            <input type="radio" name="candidate" value="JERRY JULIUS." id="cand3" />
+            <span><strong>JERRY JULIUS.</strong> — Health & Academics</span>
+          </div>
+        </label>
+      </div>
+
+      <div class="row" style="margin-top: 20px;">
+        <button class="btn primary" id="castVoteBtn">✓ Cast Vote</button>
+        <span id="castMsg"></span>
+      </div>
+
+      <div id="receipt" style="display:none;">
+        <div class="receipt">
+          <div class="receipt-title">✓ Vote Successfully Cast!</div>
+          <div style="font-size: 13px; margin-bottom: 10px;">Your tracker ID:</div>
+          <div class="receipt-id" id="trackerDisplay"></div>
+          <div class="info-box" style="margin-top: 10px; margin-bottom: 0;">
+            Save this ID to verify your encrypted ballot on the Public Bulletin Board
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="info-box">
+      <strong>Election Status:</strong> <span id="electionStatus" class="status-badge status-open">🟢 OPEN</span>
+    </div>
+
+  </section>
+</main>
+
+<script>
+const STORAGE_KEY = 'voting_session';
+const BOARD_KEY = 'public_board';
+const REGISTRY = ['VOTER001', 'VOTER002', 'VOTER003', 'VOTER004', 'VOTER005'];
+
+const state = {
+  electionOpen: true,
+  issued: {},
+  spent: new Set(),
+};
+
+const el = {
+  voterId: document.getElementById('voterId'),
+  issueCredentialBtn: document.getElementById('issueCredentialBtn'),
+  eligibilityMsg: document.getElementById('eligibilityMsg'),
+  ballot: document.getElementById('ballot'),
+  credentialDisplay: document.getElementById('credentialDisplay'),
+  castBtn: document.getElementById('castVoteBtn'),
+  castMsg: document.getElementById('castMsg'),
+  receipt: document.getElementById('receipt'),
+  tracker: document.getElementById('trackerDisplay'),
+  electionStatus: document.getElementById('electionStatus'),
+};
+
+function generateToken() {
+  return Math.random().toString(36).substring(2, 10).toUpperCase();
+}
+
+function saveSession() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadSession() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const data = JSON.parse(saved);
+    state.issued = data.issued || {};
+    state.spent = new Set(data.spent || []);
+    state.electionOpen = data.electionOpen !== false;
+  }
+}
+
+loadSession();
+
+el.issueCredentialBtn.onclick = () => {
+  const id = el.voterId.value.trim().toUpperCase();
+  
+  if (!REGISTRY.includes(id)) {
+    el.eligibilityMsg.textContent = '❌ Invalid Voter ID';
+    el.eligibilityMsg.className = 'error-msg';
+    return;
+  }
+  
+  if (!state.electionOpen) {
+    el.eligibilityMsg.textContent = '❌ Election is Closed';
+    el.eligibilityMsg.className = 'error-msg';
+    return;
+  }
+
+  let credential = state.issued[id] || generateToken();
+  state.issued[id] = credential;
+  saveSession();
+  
+  el.credentialDisplay.textContent = credential;
+  el.ballot.style.display = 'block';
+  el.eligibilityMsg.textContent = '✓ Credential Issued - You can now vote';
+  el.eligibilityMsg.className = 'success-msg';
+};
+
+el.castBtn.onclick = () => {
+  const id = el.voterId.value.trim().toUpperCase();
+  const credential = state.issued[id];
+  
+  if (state.spent.has(credential)) {
+    el.castMsg.textContent = '❌ You have already voted';
+    el.castMsg.className = 'error-msg';
+    return;
+  }
+  
+  if (!state.electionOpen) {
+    el.castMsg.textContent = '❌ Election is Closed';
+    el.castMsg.className = 'error-msg';
+    return;
+  }
+
+  const choice = document.querySelector("input[name='candidate']:checked")?.value;
+  if (!choice) {
+    el.castMsg.textContent = '❌ Please select a candidate';
+    el.castMsg.className = 'error-msg';
+    return;
+  }
+
+  const tracker = 'TRACK-' + generateToken() + '-' + Date.now();
+  const ballot = { choice, tracker, timestamp: new Date().toISOString() };
+  
+  // Store in public board (in real system, this goes to server)
+  let board = JSON.parse(localStorage.getItem(BOARD_KEY) || '[]');
+  board.push(ballot);
+  localStorage.setItem(BOARD_KEY, JSON.stringify(board));
+  
+  state.spent.add(credential);
+  saveSession();
+  
+  el.tracker.textContent = tracker;
+  el.receipt.style.display = 'block';
+  el.castMsg.textContent = '✓ Vote Successfully Cast!';
+  el.castMsg.className = 'success-msg';
+};
+
+// Check election status periodically
+setInterval(() => {
+  loadSession();
+  if (state.electionOpen) {
+    el.electionStatus.textContent = '🟢 OPEN';
+    el.electionStatus.className = 'status-badge status-open';
+  } else {
+    el.electionStatus.textContent = '🔴 CLOSED';
+    el.electionStatus.className = 'status-badge status-closed';
+  }
+}, 2000);
+</script>
+
+</body>
+</html>
