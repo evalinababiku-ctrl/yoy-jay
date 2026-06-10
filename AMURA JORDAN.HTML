@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>E-Voting System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root {
+  --bg:#0f172a;
+  --panel:#111827;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --accent:#22c55e;
+  --danger:#ef4444;
+  --warning:#f59e0b;
+  --border:#1f2937;
+  --success-bg:#064e3b;
+  --error-bg:#7f1d1d;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
+  background:linear-gradient(180deg,#0b1026,var(--bg));
+  color:var(--text);
+  line-height:1.6;
+}
+
+header{
+  padding:24px 20px;
+  border-bottom:2px solid var(--border);
+  background:linear-gradient(90deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1));
+  box-shadow:0 4px 6px rgba(0,0,0,0.3);
+}
+
+header h1{
+  margin:0;
+  font-size:28px;
+  font-weight:700;
+  background:linear-gradient(90deg, #22c55e, #60a5fa);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+header p{
+  margin:4px 0 0 0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+main{
+  max-width:1300px;
+  margin:24px auto;
+  padding:0 16px 40px;
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:24px;
+  border-bottom:1px solid var(--border);
+  flex-wrap:wrap;
+}
+
+.tab-btn{
+  padding:12px 20px;
+  border:none;
+  background:transparent;
+  color:var(--muted);
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  border-bottom:3px solid transparent;
+  transition:all 0.3s ease;
+  position:relative;
+  top:1px;
+}
+
+.tab-btn:hover{
+  color:var(--accent);
+}
+
+.tab-btn.active{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+}
+
+.tab-content{
+  display:none;
+}
+
+.tab-content.active{
+  display:block;
+}
+
+.grid{
+  display:grid;
+  gap:20px;
+}
+
+@media(min-width:1000px){
+  .grid{grid-template-columns:1fr 1fr}
+}
+
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 4px 6px rgba(0,0,0,0.2);
+  transition:box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.card:hover{
+  box-shadow:0 8px 12px rgba(0,0,0,0.3);
+}
+
+.card h2{
+  margin:0 0 16px 0;
+  font-size:18px;
+  border-bottom:2px dashed var(--border);
+  padding-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.card h2::before{
+  display:inline-block;
+  width:4px;
+  height:20px;
+  background:var(--accent);
+  border-radius:2px;
+}
+
+.field{
+  margin-bottom:16px;
+}
+
+label{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:600;
+  display:block;
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+input, select{
+  width:100%;
+  padding:11px 12px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:#0b1321;
+  color:var(--text);
+  font-size:14px;
+  transition:border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(34,197,94,0.1);
+}
+
+input:invalid{
+  border-color:var(--danger);
+}
+
+input::placeholder{
+  color:var(--muted);
+}
+
+.btn{
+  padding:11px 18px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:#1e293b;
+  color:var(--text);
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
+  transition:all 0.2s ease;
+  display:inline-block;
+}
+
+.btn:hover{
+  background:#334155;
+  transform:translateY(-2px);
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+}
+
+.btn:active{
+  transform:translateY(0);
+}
+
+.btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn.primary{
+  background:var(--accent);
+  color:#000;
+  border-color:var(--accent);
+}
+
+.btn.primary:hover{
+  background:#16a34a;
+  border-color:#16a34a;
+}
+
+.btn.danger{
+  background:var(--danger);
+  color:#fff;
+  border-color:var(--danger);
+}
+
+.btn.danger:hover{
+  background:#dc2626;
+  border-color:#dc2626;
+}
+
+.btn.warning{
+  background:var(--warning);
+  color:#000;
+  border-color:var(--warning);
+}
+
+.btn.warning:hover{
+  background:#d97706;
+  border-color:#d97706;
+}
+
+.row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.row.space-between{
+  justify-content:space-between;
+}
+
+.list{
+  display:grid;
+  gap:10px;
+}
+
+.item{
+  background:#0b1321;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:12px;
+  transition:all 0.2s ease;
+}
+
+.item:hover{
+  border-color:var(--accent);
+  background:#0d1628;
+}
+
+.item.selected{
+  border-color:var(--accent);
+  background:rgba(34,197,94,0.1);
+}
+
+.candidate-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+}
+
+.candidate-item input[type="radio"]{
+  width:auto;
+  cursor:pointer;
+  margin:0;
+}
+
+.candidate-item:hover{
+  background:#0d1628;
+  border-color:var(--accent);
+}
+
+.candidate-item input[type="radio"]:checked ~ .candidate-name{
+  color:var(--accent);
+  font-weight:700;
+}
+
+.candidate-name{
+  flex:1;
+  font-weight:600;
+}
+
+.muted{color:var(--muted);font-size:13px}
+.success{color:var(--accent)}
+.error{color:var(--danger)}
+.warning{color:var(--warning)}
+.mono{font-family:'Courier New', monospace}
+
+.alert{
+  padding:14px 16px;
+  border-radius:8px;
+  margin-bottom:16px;
+  font-size:14px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+}
+
+.alert::before{
+  display:inline-block;
+  width:20px;
+  height:20px;
+  flex-shrink:0;
+  border-radius:50%;
+  background:currentColor;
+  opacity:0.2;
+}
+
+.alert.success{
+  color:var(--accent);
+  background:rgba(34,197,94,0.1);
+  border:1px solid rgba(34,197,94,0.2);
+}
+
+.alert.error{
+  color:var(--danger);
+  background:rgba(239,68,68,0.1);
+  border:1px solid rgba(239,68,68,0.2);
+}
+
+.alert.warning{
+  color:var(--warning);
+  background:rgba(245,158,11,0.1);
+  border:1px solid rgba(245,158,11,0.2);
+}
+
+.alert.info{
+  color:#60a5fa;
+  background:rgba(96,165,250,0.1);
+  border:1px solid rgba(96,165,250,0.2);
+}
+
+.divider{
+  border:none;
+  border-top:1px dashed var(--border);
+  margin:20px 0;
+}
+
+.credential-box{
+  background:rgba(34,197,94,0.1);
+  border:2px solid var(--accent);
+  border-radius:8px;
+  padding:14px;
+  margin:16px 0;
+  font-family:monospace;
+  word-break:break-all;
+}
+
+.credential-box .label{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:6px;
+}
+
+.credential-box .value{
+  color:var(--accent);
+  font-weight:700;
+  font-size:16px;
+}
+
+.tracker-box{
+  background:rgba(96,165,250,0.1);
+  border:2px solid #60a5fa;
+  border-radius:8px;
+  padding:14px;
+  margin:16px 0;
+  font-family:monospace;
+  word-break:break-all;
+}
+
+.tracker-box .label{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:6px;
+}
+
+.tracker-box .value{
+  color:#60a5fa;
+  font-weight:700;
+  font-size:14px;
+}
+
+.admin-lock{
+  background:rgba(239,68,68,0.1);
+  border:2px solid var(--danger);
+  border-radius:8px;
+  padding:16px;
+  margin-bottom:16px;
+  text-align:center;
+}
+
+.admin-lock .lock-icon{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.hidden{
+  display:none;
+}
+
+.results-grid{
+  display:grid;
+  gap:12px;
+  margin-top:16px;
+}
+
+.result-item{
+  background:#0b1321;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.result-name{
+  font-weight:600;
+  font-size:15px;
+}
+
+.result-count{
+  background:var(--accent);
+  color:#000;
+  padding:8px 16px;
+  border-radius:6px;
+  font-weight:700;
+  font-size:18px;
+  min-width:50px;
+  text-align:center;
+}
+
+.section-header{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.section-header::before{
+  content:'';
+  display:inline-block;
+  width:4px;
+  height:24px;
+  background:var(--accent);
+  border-radius:2px;
+}
+
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  header h1{font-size:24px}
+  .tabs{gap:4px}
+  .tab-btn{padding:10px 14px;font-size:13px}
+}
+
+@media(max-width:600px){
+  header{padding:16px 12px}
+  main{padding:0 12px 32px}
+  .card{padding:16px}
+  .btn{padding:10px 14px;font-size:13px}
+  .row{gap:8px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🗳️ E-Voting System</h1>
+  <p class="muted">Secure & Transparent Election Platform</p>
+</header>
+
+<main>
+
+<!-- TAB NAVIGATION -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab(event, 'voter')">🗳️ Voter Panel</button>
+  <button class="tab-btn" onclick="switchTab(event, 'board')">📋 Public Board</button>
+  <button class="tab-btn" onclick="switchTab(event, 'admin')">🔐 Admin Access</button>
+</div>
+
+<!-- VOTER TAB -->
+<div id="voter" class="tab-content active">
+  <div class="grid">
+    <section class="card">
+      <h2>Cast Your Vote</h2>
+      
+      <div class="field">
+        <label for="voterId">Voter ID</label>
+        <input 
+          id="voterId" 
+          type="text" 
+          placeholder="e.g., VOTER001"
+          pattern="[A-Z0-9]{1,20}"
+          title="Voter ID must contain only uppercase letters and numbers"
+        >
+      </div>
+
+      <button class="btn primary" id="issueBtn">Issue Credential</button>
+      
+      <div id="eligibilityMsg"></div>
+
+      <div id="ballot" class="hidden">
+        <div class="credential-box">
+          <span class="label">Your Credential</span>
+          <span class="value" id="cred"></span>
+        </div>
+
+        <h3 style="margin-top:0;margin-bottom:12px;font-size:15px">Select a Candidate</h3>
+        
+        <div class="list">
+          <label class="item candidate-item">
+            <input type="radio" name="candidate" value="AMURA JORDAN">
+            <span class="candidate-name">AMURA JORDAN</span>
+          </label>
+          <label class="item candidate-item">
+            <input type="radio" name="candidate" value="BADA FRANK JB">
+            <span class="candidate-name">BADA FRANK JB</span>
+          </label>
+          <label class="item candidate-item">
+            <input type="radio" name="candidate" value="JERRY JULIUS">
+            <span class="candidate-name">JERRY JULIUS</span>
+          </label>
+          <label class="item candidate-item">
+            <input type="radio" name="candidate" value="JOJO PETER">
+            <span class="candidate-name">JOJO PETER</span>
+          </label>
+        </div>
+
+        <button class="btn primary" id="castBtn" style="margin-top:16px;width:100%">Cast Vote</button>
+        
+        <div id="castMsg"></div>
+
+        <div id="receipt" class="hidden">
+          <div class="tracker-box">
+            <span class="label">Vote Tracker ID</span>
+            <span class="value" id="tracker"></span>
+          </div>
+          <p class="muted" style="text-align:center;margin-top:12px">
+            ✓ Keep this tracker for your records. You can verify your vote on the Public Board.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Election Status</h2>
+      <div id="statusBox"></div>
+      <p class="muted" style="margin:12px 0 0 0">
+        📍 <strong>Status:</strong> Live and accepting votes
+      </p>
+    </section>
+  </div>
+</div>
+
+<!-- PUBLIC BOARD TAB -->
+<div id="board" class="tab-content">
+  <div class="grid">
+    <section class="card">
+      <h2>Public Bulletin Board</h2>
+      <p class="muted">Transparent vote tracker - Verification Only</p>
+      <p class="info" style="color:#60a5fa;margin:12px 0">
+        🔍 Enter your tracker ID below to verify your vote was recorded
+      </p>
+
+      <div class="field">
+        <label for="trackerSearch">Search Your Vote</label>
+        <input 
+          id="trackerSearch" 
+          type="text" 
+          placeholder="Enter your tracker ID"
+        >
+        <button class="btn" id="searchBtn" style="margin-top:8px;width:100%">Search</button>
+      </div>
+
+      <div id="searchResult"></div>
+
+      <hr class="divider">
+      
+      <h3 style="margin-top:0;margin-bottom:12px;font-size:14px">All Recorded Trackers</h3>
+      <div id="boardList" class="list"></div>
+    </section>
+
+    <section class="card">
+      <h2>Voting Statistics</h2>
+      <div id="stats"></div>
+    </section>
+  </div>
+</div>
+
+<!-- ADMIN TAB (SECURE) -->
+<div id="admin" class="tab-content">
+  <section class="card">
+    <h2>Admin Control Panel</h2>
+    
+    <div class="admin-lock" id="adminLock">
+      <div class="lock-icon">🔐</div>
+      <p style="margin:8px 0;font-weight:600">Admin Authentication Required</p>
+      <p class="muted" style="margin:6px 0 12px 0">Enter password to access admin features</p>
+      
+      <div class="field">
+        <label for="adminPass">Admin Password</label>
+        <input 
+          id="adminPass" 
+          type="password" 
+          placeholder="Enter secure password"
+          autocomplete="off"
+        >
+      </div>
+
+      <button class="btn warning" id="unlockBtn" style="width:100%">Unlock Admin Panel</button>
+      <div id="authMsg"></div>
+    </div>
+
+    <div id="adminPanel" class="hidden">
+      <div class="alert success">
+        ✓ Admin panel unlocked. Handle with care.
+      </div>
+
+      <div class="grid" style="grid-template-columns:1fr">
+        <div>
+          <h3 style="margin:0 0 12px 0;font-size:15px">Election Control</h3>
+          <div class="row">
+            <button class="btn warning" id="closeBtn">Close Election</button>
+            <button class="btn primary" id="tallyBtn">Tally Results</button>
+          </div>
+          <p id="adminMsg" class="muted"></p>
+        </div>
+
+        <hr class="divider">
+
+        <div id="resultsSection" class="hidden">
+          <h3 style="margin:0 0 12px 0;font-size:15px">Final Results</h3>
+          <div id="results" class="results-grid"></div>
+        </div>
+
+        <hr class="divider">
+
+        <div>
+          <h3 style="margin:0 0 12px 0;font-size:15px">System Audit</h3>
+          <div class="row">
+            <button class="btn" id="auditBtn" style="flex:1">View Audit Log</button>
+            <button class="btn" id="resetBtn" style="flex:1">Reset System</button>
+          </div>
+        </div>
+
+        <div id="auditLog" class="hidden">
+          <hr class="divider">
+          <h3 style="margin:0 0 12px 0;font-size:15px">Audit Trail</h3>
+          <div id="auditContent" class="list"></div>
+        </div>
+      </div>
+
+      <button class="btn danger" id="lockBtn" style="margin-top:20px;width:100%">Lock Admin Panel</button>
+    </div>
+  </section>
+</div>
+
+</main>
+
+<script>
+const ADMIN_PASSWORD = "JORDAN";
+
+const state = {
+  electionOpen: true,
+  registry: new Set(["VOTER001", "VOTER002", "VOTER003", "VOTER004", "VOTER005"]),
+  issued: new Map(),
+  spent: new Set(),
+  board: [],
+  auditLog: []
+};
+
+const el = {
+  voterId: document.getElementById("voterId"),
+  issueBtn: document.getElementById("issueBtn"),
+  eligibilityMsg: document.getElementById("eligibilityMsg"),
+  ballot: document.getElementById("ballot"),
+  cred: document.getElementById("cred"),
+  castBtn: document.getElementById("castBtn"),
+  castMsg: document.getElementById("castMsg"),
+  receipt: document.getElementById("receipt"),
+  tracker: document.getElementById("tracker"),
+  boardList: document.getElementById("boardList"),
+  trackerSearch: document.getElementById("trackerSearch"),
+  searchBtn: document.getElementById("searchBtn"),
+  searchResult: document.getElementById("searchResult"),
+  stats: document.getElementById("stats"),
+  adminPass: document.getElementById("adminPass"),
+  unlockBtn: document.getElementById("unlockBtn"),
+  authMsg: document.getElementById("authMsg"),
+  adminPanel: document.getElementById("adminPanel"),
+  adminLock: document.getElementById("adminLock"),
+  closeBtn: document.getElementById("closeBtn"),
+  tallyBtn: document.getElementById("tallyBtn"),
+  adminMsg: document.getElementById("adminMsg"),
+  resultsSection: document.getElementById("resultsSection"),
+  results: document.getElementById("results"),
+  lockBtn: document.getElementById("lockBtn"),
+  auditBtn: document.getElementById("auditBtn"),
+  resetBtn: document.getElementById("resetBtn"),
+  auditLog: document.getElementById("auditLog"),
+  auditContent: document.getElementById("auditContent"),
+  statusBox: document.getElementById("statusBox")
+};
+
+function token() {
+  return Math.random().toString(36).substring(2, 10).toUpperCase();
+}
+
+function switchTab(event, tabName) {
+  // Hide all tabs
+  document.querySelectorAll(".tab-content").forEach(tab => {
+    tab.classList.remove("active");
+  });
+  
+  // Deactivate all buttons
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.remove("active");
+  });
+  
+  // Show selected tab
+  document.getElementById(tabName).classList.add("active");
+  event.target.classList.add("active");
+}
+
+function showAlert(elementId, message, type) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  
+  el.innerHTML = `<div class="alert ${type}">${message}</div>`;
+  el.style.display = "block";
+}
+
+function logAudit(action, details) {
+  const timestamp = new Date().toLocaleString();
+  state.auditLog.push({ timestamp, action, details });
+}
+
+function updateStatusBox() {
+  const statusText = state.electionOpen 
+    ? "🟢 Election is OPEN - Accepting votes"
+    : "🔴 Election is CLOSED - No more votes accepted";
+  
+  el.statusBox.innerHTML = `
+    <div class="alert ${state.electionOpen ? 'success' : 'error'}">
+      ${statusText}
+    </div>
+    <p class="muted" style="margin:12px 0 0 0">
+      Total votes cast: <strong>${state.board.length}</strong>
+    </p>
+  `;
+}
+
+function validateVoterId(id) {
+  if (!id || id.trim().length === 0) {
+    return "Voter ID cannot be empty";
+  }
+  if (!/^[A-Z0-9]{1,20}$/.test(id.trim())) {
+    return "Voter ID must contain only uppercase letters and numbers";
+  }
+  return null;
+}
+
+el.issueBtn.onclick = () => {
+  const id = el.voterId.value.trim().toUpperCase();
+  el.voterId.value = id; // Update input to show uppercase
+  
+  // Validation
+  const error = validateVoterId(id);
+  if (error) {
+    showAlert("eligibilityMsg", `❌ ${error}`, "error");
+    return;
+  }
+  
+  if (!state.registry.has(id)) {
+    showAlert("eligibilityMsg", "❌ Voter ID not found in registry", "error");
+    logAudit("FAILED_ISSUE", `Invalid voter ID: ${id}`);
+    return;
+  }
+  
+  if (!state.electionOpen) {
+    showAlert("eligibilityMsg", "❌ Election is closed - credentials cannot be issued", "error");
+    return;
+  }
+  
+  if (state.issued.has(id) && state.spent.has(state.issued.get(id))) {
+    showAlert("eligibilityMsg", "❌ This voter has already voted", "error");
+    logAudit("DUPLICATE_VOTE_ATTEMPT", `Voter ${id} attempted to vote twice`);
+    return;
+  }
+  
+  let c = state.issued.get(id) || token();
+  state.issued.set(id, c);
+  el.cred.textContent = c;
+  el.ballot.classList.remove("hidden");
+  showAlert("eligibilityMsg", "✓ Credential issued successfully", "success");
+  logAudit("CREDENTIAL_ISSUED", `Voter ${id}`);
+};
+
+el.castBtn.onclick = () => {
+  const id = el.voterId.value.trim().toUpperCase();
+  const c = state.issued.get(id);
+  
+  if (!c) {
+    showAlert("castMsg", "❌ Please issue a credential first", "error");
+    return;
+  }
+  
+  if (state.spent.has(c)) {
+    showAlert("castMsg", "❌ This credential has already been used", "error");
+    logAudit("DUPLICATE_CREDENTIAL", `Credential ${c} reuse attempt`);
+    return;
+  }
+  
+  if (!state.electionOpen) {
+    showAlert("castMsg", "❌ Election is closed - votes cannot be cast", "error");
+    return;
+  }
+  
+  const choice = document.querySelector("input[name='candidate']:checked")?.value;
+  if (!choice) {
+    showAlert("castMsg", "❌ Please select a candidate before voting", "error");
+    return;
+  }
+  
+  const tracker = token() + Date.now();
+  state.board.push({ choice, tracker });
+  state.spent.add(c);
+  
+  el.tracker.textContent = tracker;
+  el.receipt.classList.remove("hidden");
+  showAlert("castMsg", "✓ Vote cast successfully!", "success");
+  
+  logAudit("VOTE_CAST", `Candidate: ${choice}`);
+  
+  // Update public board in real-time
+  renderBoard();
+  updateStats();
+  updateStatusBox();
+};
+
+el.searchBtn.onclick = () => {
+  const tracker = el.trackerSearch.value.trim();
+  
+  if (!tracker) {
+    showAlert("searchResult", "❌ Please enter a tracker ID", "error");
+    return;
+  }
+  
+  const vote = state.board.find(b => b.tracker === tracker);
+  
+  if (vote) {
+    showAlert("searchResult", 
+      `✓ Vote found! Candidate: <strong>${vote.choice}</strong>`, 
+      "success"
+    );
+  } else {
+    showAlert("searchResult", "❌ Tracker ID not found in public records", "error");
+  }
+};
+
+function renderBoard() {
+  el.boardList.innerHTML = "";
+  if (state.board.length === 0) {
+    el.boardList.innerHTML = '<div class="muted">No votes recorded yet</div>';
+    return;
+  }
+  
+  state.board.forEach(b => {
+    el.boardList.innerHTML += `
+      <div class="item mono" style="word-break:break-all;font-size:12px">
+        <strong>ID:</strong> ${b.tracker}
+      </div>
+    `;
+  });
+}
+
+function updateStats() {
+  const count = {};
+  state.board.forEach(b => count[b.choice] = (count[b.choice] || 0) + 1);
+  
+  el.stats.innerHTML = `
+    <div class="alert info">
+      📊 Total votes cast: <strong>${state.board.length}</strong>
+    </div>
+    <div style="margin-top:12px">
+      <strong>Candidates:</strong>
+      <ul style="margin:8px 0;padding-left:20px">
+        <li>AMURA JORDAN: ${count["AMURA JORDAN"] || 0}</li>
+        <li>BADA FRANK JB: ${count["BADA FRANK JB"] || 0}</li>
+        <li>JERRY JULIUS: ${count["JERRY JULIUS"] || 0}</li>
+        <li>JOJO PETER: ${count["JOJO PETER"] || 0}</li>
+      </ul>
+    </div>
+  `;
+}
+
+// ADMIN FUNCTIONS
+el.unlockBtn.onclick = () => {
+  const password = el.adminPass.value;
+  
+  if (!password) {
+    showAlert("authMsg", "❌ Please enter the admin password", "error");
+    return;
+  }
+  
+  if (password === ADMIN_PASSWORD) {
+    el.adminLock.classList.add("hidden");
+    el.adminPanel.classList.remove("hidden");
+    showAlert("authMsg", "");
+    logAudit("ADMIN_LOGIN", "Admin panel accessed");
+  } else {
+    showAlert("authMsg", "❌ Invalid password", "error");
+    logAudit("FAILED_LOGIN", "Incorrect admin password");
+  }
+};
+
+el.lockBtn.onclick = () => {
+  el.adminPanel.classList.add("hidden");
+  el.adminLock.classList.remove("hidden");
+  el.adminPass.value = "";
+  el.resultsSection.classList.add("hidden");
+  showAlert("authMsg", "");
+  logAudit("ADMIN_LOGOUT", "Admin panel locked");
+};
+
+el.closeBtn.onclick = () => {
+  if (state.electionOpen) {
+    state.electionOpen = false;
+    showAlert("adminMsg", "✓ Election closed successfully", "success");
+    logAudit("ELECTION_CLOSED", "Admin closed the election");
+    updateStatusBox();
+  } else {
+    showAlert("adminMsg", "⚠ Election is already closed", "warning");
+  }
+};
+
+el.tallyBtn.onclick = () => {
+  if (state.electionOpen) {
+    showAlert("adminMsg", "❌ Election must be closed before tallying", "error");
+    return;
+  }
+  
+  const count = {};
+  state.board.forEach(b => count[b.choice] = (count[b.choice] || 0) + 1);
+  
+  el.results.innerHTML = "";
+  const candidates = ["AMURA JORDAN", "BADA FRANK JB", "JERRY JULIUS", "JOJO PETER"];
+  
+  candidates.forEach(candidate => {
+    const votes = count[candidate] || 0;
+    el.results.innerHTML += `
+      <div class="result-item">
+        <span class="result-name">${candidate}</span>
+        <span class="result-count">${votes}</span>
+      </div>
+    `;
+  });
+  
+  el.resultsSection.classList.remove("hidden");
+  showAlert("adminMsg", "✓ Results tallied successfully", "success");
+  logAudit("RESULTS_TALLIED", `Total votes: ${state.board.length}`);
+};
+
+el.auditBtn.onclick = () => {
+  el.auditLog.classList.toggle("hidden");
+  
+  if (!el.auditLog.classList.contains("hidden")) {
+    el.auditContent.innerHTML = "";
+    
+    if (state.auditLog.length === 0) {
+      el.auditContent.innerHTML = '<div class="muted">No audit events recorded</div>';
+      return;
+    }
+    
+    state.auditLog.forEach(log => {
+      el.auditContent.innerHTML += `
+        <div class="item mono" style="font-size:12px">
+          <div><strong>${log.timestamp}</strong></div>
+          <div style="color:var(--accent);margin-top:4px">${log.action}</div>
+          <div class="muted">${log.details}</div>
+        </div>
+      `;
+    });
+  }
+};
+
+el.resetBtn.onclick = () => {
+  if (confirm("⚠️ WARNING: This will reset the entire system. Are you sure?")) {
+    if (confirm("⚠️ CONFIRM: This action cannot be undone!")) {
+      state.electionOpen = true;
+      state.issued.clear();
+      state.spent.clear();
+      state.board = [];
+      state.auditLog = [];
+      
+      el.voterId.value = "";
+      el.ballot.classList.add("hidden");
+      el.receipt.classList.add("hidden");
+      el.boardList.innerHTML = "";
+      el.results.innerHTML = "";
+      el.resultsSection.classList.add("hidden");
+      el.auditContent.innerHTML = "";
+      el.auditLog.classList.add("hidden");
+      
+      showAlert("adminMsg", "✓ System reset complete", "success");
+      logAudit("SYSTEM_RESET", "All data cleared");
+      updateStatusBox();
+      updateStats();
+      renderBoard();
+    }
+  }
+};
+
+// Initial render
+updateStatusBox();
+updateStats();
+renderBoard();
+</script>
+
+</body>
+</html>
