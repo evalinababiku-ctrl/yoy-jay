@@ -17,6 +17,10 @@
   --border:#1f2937;
   --success-bg:#064e3b;
   --error-bg:#7f1d1d;
+  --color1:#22c55e;
+  --color2:#3b82f6;
+  --color3:#f59e0b;
+  --color4:#ec4899;
 }
 
 *{box-sizing:border-box}
@@ -472,6 +476,176 @@ input::placeholder{
   border-radius:2px;
 }
 
+/* REAL-TIME STATS STYLES */
+.stats-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--border);
+}
+
+.total-votes{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+}
+
+.total-votes-number{
+  font-size:32px;
+  font-weight:700;
+  color:var(--accent);
+}
+
+.live-indicator{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12px;
+  color:#60a5fa;
+}
+
+.live-indicator::before{
+  content:'';
+  display:inline-block;
+  width:8px;
+  height:8px;
+  background:#60a5fa;
+  border-radius:50%;
+  animation:pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  0%, 100%{opacity:1;transform:scale(1)}
+  50%{opacity:0.5;transform:scale(1.2)}
+}
+
+.candidate-stat{
+  background:#0b1321;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  margin-bottom:12px;
+  transition:all 0.3s ease;
+  animation:slideIn 0.3s ease;
+}
+
+@keyframes slideIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.candidate-stat:hover{
+  border-color:var(--accent);
+  background:#0d1628;
+  box-shadow:0 4px 8px rgba(0,0,0,0.2);
+}
+
+.stat-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.stat-name{
+  font-weight:600;
+  font-size:14px;
+  flex:1;
+}
+
+.stat-count{
+  font-size:20px;
+  font-weight:700;
+  margin-right:12px;
+  min-width:40px;
+  text-align:right;
+}
+
+.candidate-stat.color1 .stat-name{color:var(--color1)}
+.candidate-stat.color2 .stat-name{color:var(--color2)}
+.candidate-stat.color3 .stat-name{color:var(--color3)}
+.candidate-stat.color4 .stat-name{color:var(--color4)}
+
+.candidate-stat.color1 .stat-count{color:var(--color1)}
+.candidate-stat.color2 .stat-count{color:var(--color2)}
+.candidate-stat.color3 .stat-count{color:var(--color3)}
+.candidate-stat.color4 .stat-count{color:var(--color4)}
+
+.progress-bar-container{
+  background:rgba(0,0,0,0.3);
+  border-radius:6px;
+  height:24px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+
+.progress-bar{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  padding-right:8px;
+  font-size:11px;
+  font-weight:700;
+  color:#000;
+  transition:width 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+  min-width:30px;
+}
+
+.progress-bar.color1{background:linear-gradient(90deg, var(--color1), var(--color1))}
+.progress-bar.color2{background:linear-gradient(90deg, var(--color2), var(--color2))}
+.progress-bar.color3{background:linear-gradient(90deg, var(--color3), var(--color3))}
+.progress-bar.color4{background:linear-gradient(90deg, var(--color4), var(--color4))}
+
+.percentage{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+  text-align:right;
+}
+
+.stat-comparison{
+  display:flex;
+  gap:4px;
+  margin-top:8px;
+  align-items:center;
+}
+
+.stat-comparison-item{
+  flex:1;
+  height:8px;
+  border-radius:4px;
+  background:rgba(0,0,0,0.3);
+}
+
+.stat-comparison-item.color1{background:var(--color1)}
+.stat-comparison-item.color2{background:var(--color2)}
+.stat-comparison-item.color3{background:var(--color3)}
+.stat-comparison-item.color4{background:var(--color4)}
+
+.stats-footer{
+  margin-top:16px;
+  padding-top:12px;
+  border-top:1px dashed var(--border);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  font-size:13px;
+}
+
+.stat-meta{
+  background:rgba(34,197,94,0.05);
+  padding:8px 12px;
+  border-radius:6px;
+  border-left:3px solid var(--accent);
+}
+
+.stat-meta strong{
+  color:var(--text);
+}
+
 @media(max-width:900px){
   .grid{grid-template-columns:1fr}
   header h1{font-size:24px}
@@ -485,6 +659,8 @@ input::placeholder{
   .card{padding:16px}
   .btn{padding:10px 14px;font-size:13px}
   .row{gap:8px}
+  .stats-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .stats-footer{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -608,7 +784,7 @@ input::placeholder{
     </section>
 
     <section class="card">
-      <h2>Voting Statistics</h2>
+      <h2>Live Voting Statistics</h2>
       <div id="stats"></div>
     </section>
   </div>
@@ -686,6 +862,8 @@ input::placeholder{
 
 <script>
 const ADMIN_PASSWORD = "JORDAN";
+const candidates = ["AMURA JORDAN", "BADA FRANK JB", "JERRY JULIUS", "JOJO PETER"];
+const candidateColors = ["color1", "color2", "color3", "color4"];
 
 const state = {
   electionOpen: true,
@@ -734,17 +912,14 @@ function token() {
 }
 
 function switchTab(event, tabName) {
-  // Hide all tabs
   document.querySelectorAll(".tab-content").forEach(tab => {
     tab.classList.remove("active");
   });
   
-  // Deactivate all buttons
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.classList.remove("active");
   });
   
-  // Show selected tab
   document.getElementById(tabName).classList.add("active");
   event.target.classList.add("active");
 }
@@ -789,9 +964,8 @@ function validateVoterId(id) {
 
 el.issueBtn.onclick = () => {
   const id = el.voterId.value.trim().toUpperCase();
-  el.voterId.value = id; // Update input to show uppercase
+  el.voterId.value = id;
   
-  // Validation
   const error = validateVoterId(id);
   if (error) {
     showAlert("eligibilityMsg", `❌ ${error}`, "error");
@@ -859,7 +1033,6 @@ el.castBtn.onclick = () => {
   
   logAudit("VOTE_CAST", `Candidate: ${choice}`);
   
-  // Update public board in real-time
   renderBoard();
   updateStats();
   updateStatusBox();
@@ -903,22 +1076,60 @@ function renderBoard() {
 
 function updateStats() {
   const count = {};
-  state.board.forEach(b => count[b.choice] = (count[b.choice] || 0) + 1);
+  candidates.forEach(c => count[c] = 0);
+  state.board.forEach(b => count[b.choice]++);
   
-  el.stats.innerHTML = `
-    <div class="alert info">
-      📊 Total votes cast: <strong>${state.board.length}</strong>
-    </div>
-    <div style="margin-top:12px">
-      <strong>Candidates:</strong>
-      <ul style="margin:8px 0;padding-left:20px">
-        <li>AMURA JORDAN: ${count["AMURA JORDAN"] || 0}</li>
-        <li>BADA FRANK JB: ${count["BADA FRANK JB"] || 0}</li>
-        <li>JERRY JULIUS: ${count["JERRY JULIUS"] || 0}</li>
-        <li>JOJO PETER: ${count["JOJO PETER"] || 0}</li>
-      </ul>
+  const totalVotes = state.board.length;
+  const maxVotes = Math.max(...candidates.map(c => count[c])) || 1;
+  
+  let html = `
+    <div class="stats-header">
+      <div class="total-votes">
+        <span class="total-votes-number">${totalVotes}</span>
+        <span>Total Votes</span>
+      </div>
+      <div class="live-indicator">Live Update</div>
     </div>
   `;
+  
+  candidates.forEach((candidate, index) => {
+    const votes = count[candidate];
+    const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(1) : 0;
+    const barWidth = totalVotes > 0 ? (votes / maxVotes) * 100 : 0;
+    const color = candidateColors[index];
+    
+    html += `
+      <div class="candidate-stat ${color}">
+        <div class="stat-row">
+          <div class="stat-name">📊 ${candidate}</div>
+          <div class="stat-count">${votes}</div>
+        </div>
+        
+        <div class="progress-bar-container">
+          <div class="progress-bar ${color}" style="width:${barWidth}%">
+            ${percentage}%
+          </div>
+        </div>
+        
+        <div class="percentage">
+          ${percentage}% of votes
+        </div>
+      </div>
+    `;
+  });
+  
+  html += `
+    <div class="stats-footer">
+      <div class="stat-meta">
+        <strong>Leading:</strong> ${maxVotes > 0 ? candidates[candidates.findIndex(c => count[c] === maxVotes)] : 'N/A'}
+      </div>
+      <div class="stat-meta">
+        <strong>Updated:</strong> ${new Date().toLocaleTimeString()}
+      </div>
+    </div>
+  `;
+  
+  el.stats.innerHTML = html;
 }
 
 // ADMIN FUNCTIONS
@@ -971,10 +1182,10 @@ el.tallyBtn.onclick = () => {
   state.board.forEach(b => count[b.choice] = (count[b.choice] || 0) + 1);
   
   el.results.innerHTML = "";
-  const candidates = ["AMURA JORDAN", "BADA FRANK JB", "JERRY JULIUS", "JOJO PETER"];
   
-  candidates.forEach(candidate => {
+  candidates.forEach((candidate, index) => {
     const votes = count[candidate] || 0;
+    const color = candidateColors[index];
     el.results.innerHTML += `
       <div class="result-item">
         <span class="result-name">${candidate}</span>
