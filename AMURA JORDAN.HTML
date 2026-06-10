@@ -7,20 +7,19 @@
 
 <style>
 :root {
-  --bg:#0f172a;
-  --panel:#111827;
-  --text:#e5e7eb;
-  --muted:#9ca3af;
-  --accent:#22c55e;
+  --primary:#6366f1;
+  --secondary:#8b5cf6;
+  --accent:#ec4899;
+  --success:#10b981;
   --danger:#ef4444;
   --warning:#f59e0b;
-  --border:#1f2937;
-  --success-bg:#064e3b;
-  --error-bg:#7f1d1d;
-  --color1:#22c55e;
-  --color2:#3b82f6;
-  --color3:#f59e0b;
-  --color4:#ec4899;
+  --bg:#0f172a;
+  --bg-light:#1e293b;
+  --panel:#1a1f35;
+  --text:#f8fafc;
+  --text-muted:#cbd5e1;
+  --border:#334155;
+  --hover:#2d3748;
 }
 
 *{box-sizing:border-box}
@@ -28,73 +27,81 @@
 body{
   margin:0;
   font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', system-ui;
-  background:linear-gradient(180deg,#0b1026,var(--bg));
+  background:linear-gradient(135deg, #0f172a 0%, #1a1f35 50%, #0f1626 100%);
   color:var(--text);
   line-height:1.6;
+  min-height:100vh;
 }
 
 header{
-  padding:24px 20px;
-  border-bottom:2px solid var(--border);
-  background:linear-gradient(90deg, rgba(34,197,94,0.1), rgba(59,130,246,0.1));
-  box-shadow:0 4px 6px rgba(0,0,0,0.3);
+  padding:28px 24px;
+  background:linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  box-shadow:0 8px 32px rgba(99, 102, 241, 0.3);
+  border-bottom:3px solid var(--accent);
 }
 
 header h1{
   margin:0;
-  font-size:28px;
-  font-weight:700;
-  background:linear-gradient(90deg, #22c55e, #60a5fa);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
+  font-size:32px;
+  font-weight:800;
+  color:white;
+  text-shadow:0 2px 4px rgba(0,0,0,0.2);
+  letter-spacing:-0.5px;
 }
 
 header p{
-  margin:4px 0 0 0;
-  color:var(--muted);
+  margin:6px 0 0 0;
+  color:rgba(255,255,255,0.9);
   font-size:14px;
+  font-weight:500;
 }
 
 main{
-  max-width:1300px;
-  margin:24px auto;
+  max-width:1400px;
+  margin:28px auto;
   padding:0 16px 40px;
 }
 
 .tabs{
   display:flex;
-  gap:8px;
-  margin-bottom:24px;
-  border-bottom:1px solid var(--border);
+  gap:12px;
+  margin-bottom:28px;
+  border-bottom:2px solid var(--border);
   flex-wrap:wrap;
 }
 
 .tab-btn{
-  padding:12px 20px;
+  padding:14px 24px;
   border:none;
   background:transparent;
-  color:var(--muted);
+  color:var(--text-muted);
   cursor:pointer;
-  font-size:14px;
-  font-weight:600;
-  border-bottom:3px solid transparent;
+  font-size:15px;
+  font-weight:700;
+  border-bottom:4px solid transparent;
   transition:all 0.3s ease;
   position:relative;
-  top:1px;
+  top:2px;
 }
 
 .tab-btn:hover{
-  color:var(--accent);
+  color:var(--primary);
 }
 
 .tab-btn.active{
   color:var(--accent);
   border-bottom-color:var(--accent);
+  background:rgba(236, 72, 153, 0.05);
 }
 
 .tab-content{
   display:none;
+  animation:fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 .tab-content.active{
@@ -103,7 +110,7 @@ main{
 
 .grid{
   display:grid;
-  gap:20px;
+  gap:24px;
 }
 
 @media(min-width:1000px){
@@ -111,96 +118,111 @@ main{
 }
 
 .card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 4px 6px rgba(0,0,0,0.2);
-  transition:box-shadow 0.3s ease, transform 0.2s ease;
+  background:linear-gradient(135deg, var(--panel) 0%, #212738 100%);
+  border:2px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.3);
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
 }
 
 .card:hover{
-  box-shadow:0 8px 12px rgba(0,0,0,0.3);
+  border-color:var(--primary);
+  box-shadow:0 12px 32px rgba(99, 102, 241, 0.2);
+  transform:translateY(-2px);
 }
 
 .card h2{
-  margin:0 0 16px 0;
-  font-size:18px;
-  border-bottom:2px dashed var(--border);
-  padding-bottom:12px;
+  margin:0 0 18px 0;
+  font-size:20px;
+  font-weight:800;
+  color:var(--text);
+  border-bottom:2px solid var(--primary);
+  padding-bottom:14px;
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:10px;
 }
 
 .card h2::before{
   display:inline-block;
-  width:4px;
-  height:20px;
-  background:var(--accent);
-  border-radius:2px;
+  width:5px;
+  height:24px;
+  background:linear-gradient(180deg, var(--primary), var(--accent));
+  border-radius:3px;
 }
 
 .field{
-  margin-bottom:16px;
+  margin-bottom:18px;
 }
 
 label{
-  font-size:13px;
-  color:var(--muted);
-  font-weight:600;
+  font-size:12px;
+  color:var(--primary);
+  font-weight:800;
   display:block;
-  margin-bottom:6px;
+  margin-bottom:8px;
   text-transform:uppercase;
-  letter-spacing:0.5px;
+  letter-spacing:1px;
 }
 
 input, select{
   width:100%;
-  padding:11px 12px;
-  border-radius:8px;
-  border:1px solid var(--border);
-  background:#0b1321;
+  padding:12px 14px;
+  border-radius:10px;
+  border:2px solid var(--border);
+  background:var(--bg-light);
   color:var(--text);
   font-size:14px;
-  transition:border-color 0.2s ease, box-shadow 0.2s ease;
+  font-weight:500;
+  transition:all 0.2s ease;
 }
 
 input:focus, select:focus{
   outline:none;
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px rgba(34,197,94,0.1);
-}
-
-input:invalid{
-  border-color:var(--danger);
+  border-color:var(--primary);
+  background:rgba(99, 102, 241, 0.05);
+  box-shadow:0 0 0 4px rgba(99, 102, 241, 0.1);
 }
 
 input::placeholder{
-  color:var(--muted);
+  color:var(--text-muted);
 }
 
 .btn{
-  padding:11px 18px;
-  border-radius:8px;
-  border:1px solid var(--border);
-  background:#1e293b;
+  padding:12px 20px;
+  border-radius:10px;
+  border:2px solid transparent;
+  background:var(--bg-light);
   color:var(--text);
   cursor:pointer;
-  font-weight:600;
+  font-weight:700;
   font-size:14px;
   transition:all 0.2s ease;
   display:inline-block;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
 }
 
 .btn:hover{
-  background:#334155;
-  transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transform:translateY(-3px);
+  box-shadow:0 8px 16px rgba(0,0,0,0.3);
 }
 
 .btn:active{
-  transform:translateY(0);
+  transform:translateY(-1px);
 }
 
 .btn:disabled{
@@ -210,218 +232,206 @@ input::placeholder{
 }
 
 .btn.primary{
-  background:var(--accent);
-  color:#000;
-  border-color:var(--accent);
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:white;
+  border-color:var(--primary);
 }
 
 .btn.primary:hover{
-  background:#16a34a;
-  border-color:#16a34a;
+  box-shadow:0 8px 20px rgba(99, 102, 241, 0.4);
 }
 
 .btn.danger{
-  background:var(--danger);
-  color:#fff;
+  background:linear-gradient(135deg, var(--danger), #dc2626);
+  color:white;
   border-color:var(--danger);
 }
 
 .btn.danger:hover{
-  background:#dc2626;
-  border-color:#dc2626;
+  box-shadow:0 8px 20px rgba(239, 68, 68, 0.4);
 }
 
 .btn.warning{
-  background:var(--warning);
-  color:#000;
+  background:linear-gradient(135deg, var(--warning), #d97706);
+  color:white;
   border-color:var(--warning);
 }
 
 .btn.warning:hover{
-  background:#d97706;
-  border-color:#d97706;
+  box-shadow:0 8px 20px rgba(245, 158, 11, 0.4);
 }
 
 .row{
   display:flex;
-  gap:12px;
+  gap:14px;
   flex-wrap:wrap;
-}
-
-.row.space-between{
-  justify-content:space-between;
 }
 
 .list{
   display:grid;
-  gap:10px;
+  gap:12px;
 }
 
 .item{
-  background:#0b1321;
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:12px;
+  background:var(--bg-light);
+  border:2px solid var(--border);
+  border-radius:10px;
+  padding:14px;
   transition:all 0.2s ease;
 }
 
 .item:hover{
-  border-color:var(--accent);
-  background:#0d1628;
-}
-
-.item.selected{
-  border-color:var(--accent);
-  background:rgba(34,197,94,0.1);
+  border-color:var(--primary);
+  background:rgba(99, 102, 241, 0.05);
 }
 
 .candidate-item{
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:12px;
-  border-radius:8px;
+  gap:14px;
+  padding:14px;
+  border-radius:10px;
   cursor:pointer;
   transition:all 0.2s ease;
+  border:2px solid var(--border);
 }
 
 .candidate-item input[type="radio"]{
   width:auto;
   cursor:pointer;
   margin:0;
+  accent-color:var(--primary);
 }
 
 .candidate-item:hover{
-  background:#0d1628;
-  border-color:var(--accent);
+  background:rgba(99, 102, 241, 0.05);
+  border-color:var(--primary);
 }
 
 .candidate-item input[type="radio"]:checked ~ .candidate-name{
   color:var(--accent);
-  font-weight:700;
+  font-weight:800;
 }
 
 .candidate-name{
   flex:1;
-  font-weight:600;
+  font-weight:700;
+  font-size:15px;
 }
 
-.muted{color:var(--muted);font-size:13px}
-.success{color:var(--accent)}
+.muted{color:var(--text-muted);font-size:13px}
+.success{color:var(--success)}
 .error{color:var(--danger)}
 .warning{color:var(--warning)}
 .mono{font-family:'Courier New', monospace}
 
 .alert{
-  padding:14px 16px;
-  border-radius:8px;
+  padding:16px 18px;
+  border-radius:10px;
   margin-bottom:16px;
   font-size:14px;
   display:flex;
-  gap:10px;
+  gap:12px;
   align-items:flex-start;
-}
-
-.alert::before{
-  display:inline-block;
-  width:20px;
-  height:20px;
-  flex-shrink:0;
-  border-radius:50%;
-  background:currentColor;
-  opacity:0.2;
+  font-weight:600;
+  border-left:4px solid;
 }
 
 .alert.success{
-  color:var(--accent);
-  background:rgba(34,197,94,0.1);
-  border:1px solid rgba(34,197,94,0.2);
+  color:#10b981;
+  background:rgba(16, 185, 129, 0.1);
+  border-left-color:var(--success);
 }
 
 .alert.error{
-  color:var(--danger);
-  background:rgba(239,68,68,0.1);
-  border:1px solid rgba(239,68,68,0.2);
+  color:#ef4444;
+  background:rgba(239, 68, 68, 0.1);
+  border-left-color:var(--danger);
 }
 
 .alert.warning{
-  color:var(--warning);
-  background:rgba(245,158,11,0.1);
-  border:1px solid rgba(245,158,11,0.2);
+  color:#f59e0b;
+  background:rgba(245, 158, 11, 0.1);
+  border-left-color:var(--warning);
 }
 
 .alert.info{
-  color:#60a5fa;
-  background:rgba(96,165,250,0.1);
-  border:1px solid rgba(96,165,250,0.2);
+  color:var(--primary);
+  background:rgba(99, 102, 241, 0.1);
+  border-left-color:var(--primary);
 }
 
 .divider{
   border:none;
-  border-top:1px dashed var(--border);
-  margin:20px 0;
+  border-top:2px dashed var(--border);
+  margin:24px 0;
 }
 
 .credential-box{
-  background:rgba(34,197,94,0.1);
-  border:2px solid var(--accent);
-  border-radius:8px;
-  padding:14px;
-  margin:16px 0;
+  background:linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(99, 102, 241, 0.1));
+  border:2px solid var(--success);
+  border-radius:10px;
+  padding:16px;
+  margin:18px 0;
   font-family:monospace;
   word-break:break-all;
 }
 
 .credential-box .label{
-  color:var(--muted);
-  font-size:12px;
+  color:var(--success);
+  font-size:11px;
   text-transform:uppercase;
   display:block;
-  margin-bottom:6px;
+  margin-bottom:8px;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
 .credential-box .value{
-  color:var(--accent);
-  font-weight:700;
-  font-size:16px;
+  color:var(--success);
+  font-weight:800;
+  font-size:18px;
+  letter-spacing:1px;
 }
 
 .tracker-box{
-  background:rgba(96,165,250,0.1);
-  border:2px solid #60a5fa;
-  border-radius:8px;
-  padding:14px;
-  margin:16px 0;
+  background:linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  border:2px solid var(--primary);
+  border-radius:10px;
+  padding:16px;
+  margin:18px 0;
   font-family:monospace;
   word-break:break-all;
 }
 
 .tracker-box .label{
-  color:var(--muted);
-  font-size:12px;
+  color:var(--primary);
+  font-size:11px;
   text-transform:uppercase;
   display:block;
-  margin-bottom:6px;
+  margin-bottom:8px;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
 .tracker-box .value{
-  color:#60a5fa;
-  font-weight:700;
-  font-size:14px;
+  color:var(--primary);
+  font-weight:800;
+  font-size:16px;
 }
 
 .admin-lock{
-  background:rgba(239,68,68,0.1);
+  background:linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
   border:2px solid var(--danger);
-  border-radius:8px;
-  padding:16px;
+  border-radius:10px;
+  padding:24px;
   margin-bottom:16px;
   text-align:center;
 }
 
 .admin-lock .lock-icon{
-  font-size:28px;
-  margin-bottom:8px;
+  font-size:40px;
+  margin-bottom:12px;
 }
 
 .hidden{
@@ -430,50 +440,41 @@ input::placeholder{
 
 .results-grid{
   display:grid;
-  gap:12px;
+  gap:14px;
   margin-top:16px;
 }
 
 .result-item{
-  background:#0b1321;
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:16px;
+  background:linear-gradient(135deg, var(--bg-light), #212738);
+  border:2px solid var(--border);
+  border-radius:10px;
+  padding:18px;
   display:flex;
   justify-content:space-between;
   align-items:center;
+  transition:all 0.2s ease;
+}
+
+.result-item:hover{
+  border-color:var(--primary);
+  box-shadow:0 6px 16px rgba(99, 102, 241, 0.15);
 }
 
 .result-name{
-  font-weight:600;
-  font-size:15px;
+  font-weight:800;
+  font-size:16px;
 }
 
 .result-count{
-  background:var(--accent);
-  color:#000;
-  padding:8px 16px;
-  border-radius:6px;
-  font-weight:700;
-  font-size:18px;
-  min-width:50px;
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  color:white;
+  padding:10px 18px;
+  border-radius:8px;
+  font-weight:800;
+  font-size:20px;
+  min-width:60px;
   text-align:center;
-}
-
-.section-header{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:16px;
-}
-
-.section-header::before{
-  content:'';
-  display:inline-block;
-  width:4px;
-  height:24px;
-  background:var(--accent);
-  border-radius:2px;
+  box-shadow:0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 /* REAL-TIME STATS STYLES */
@@ -481,104 +482,105 @@ input::placeholder{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:16px;
-  padding-bottom:12px;
-  border-bottom:1px solid var(--border);
+  margin-bottom:20px;
+  padding-bottom:16px;
+  border-bottom:2px solid var(--border);
 }
 
 .total-votes{
   display:flex;
   align-items:baseline;
-  gap:8px;
+  gap:10px;
 }
 
 .total-votes-number{
-  font-size:32px;
-  font-weight:700;
-  color:var(--accent);
+  font-size:40px;
+  font-weight:800;
+  background:linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
 }
 
 .live-indicator{
   display:inline-flex;
   align-items:center;
-  gap:6px;
-  font-size:12px;
-  color:#60a5fa;
+  gap:8px;
+  font-size:13px;
+  color:var(--success);
+  font-weight:700;
+  background:rgba(16, 185, 129, 0.1);
+  padding:8px 14px;
+  border-radius:8px;
+  border:2px solid var(--success);
 }
 
 .live-indicator::before{
   content:'';
   display:inline-block;
-  width:8px;
-  height:8px;
-  background:#60a5fa;
+  width:10px;
+  height:10px;
+  background:var(--success);
   border-radius:50%;
   animation:pulse 1.5s ease-in-out infinite;
 }
 
 @keyframes pulse{
   0%, 100%{opacity:1;transform:scale(1)}
-  50%{opacity:0.5;transform:scale(1.2)}
+  50%{opacity:0.6;transform:scale(1.2)}
 }
 
 .candidate-stat{
-  background:#0b1321;
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:16px;
-  margin-bottom:12px;
+  background:linear-gradient(135deg, var(--bg-light), #212738);
+  border:2px solid var(--border);
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:14px;
   transition:all 0.3s ease;
-  animation:slideIn 0.3s ease;
+  animation:slideIn 0.4s ease;
 }
 
 @keyframes slideIn{
-  from{opacity:0;transform:translateY(10px)}
-  to{opacity:1;transform:translateY(0)}
+  from{opacity:0;transform:translateX(-10px)}
+  to{opacity:1;transform:translateX(0)}
 }
 
 .candidate-stat:hover{
-  border-color:var(--accent);
-  background:#0d1628;
-  box-shadow:0 4px 8px rgba(0,0,0,0.2);
+  border-color:var(--primary);
+  background:rgba(99, 102, 241, 0.05);
+  box-shadow:0 8px 20px rgba(99, 102, 241, 0.15);
+  transform:translateX(4px);
 }
 
 .stat-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .stat-name{
-  font-weight:600;
-  font-size:14px;
-  flex:1;
+  font-weight:800;
+  font-size:15px;
+  color:var(--text);
 }
 
 .stat-count{
-  font-size:20px;
-  font-weight:700;
-  margin-right:12px;
-  min-width:40px;
-  text-align:right;
+  font-size:24px;
+  font-weight:800;
+  background:linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
 }
 
-.candidate-stat.color1 .stat-name{color:var(--color1)}
-.candidate-stat.color2 .stat-name{color:var(--color2)}
-.candidate-stat.color3 .stat-name{color:var(--color3)}
-.candidate-stat.color4 .stat-name{color:var(--color4)}
-
-.candidate-stat.color1 .stat-count{color:var(--color1)}
-.candidate-stat.color2 .stat-count{color:var(--color2)}
-.candidate-stat.color3 .stat-count{color:var(--color3)}
-.candidate-stat.color4 .stat-count{color:var(--color4)}
-
 .progress-bar-container{
-  background:rgba(0,0,0,0.3);
-  border-radius:6px;
-  height:24px;
+  background:var(--bg-light);
+  border-radius:8px;
+  height:28px;
   overflow:hidden;
-  border:1px solid var(--border);
+  border:2px solid var(--border);
+  margin:10px 0;
 }
 
 .progress-bar{
@@ -586,81 +588,78 @@ input::placeholder{
   display:flex;
   align-items:center;
   justify-content:flex-end;
-  padding-right:8px;
-  font-size:11px;
-  font-weight:700;
-  color:#000;
-  transition:width 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-  min-width:30px;
+  padding-right:10px;
+  font-size:12px;
+  font-weight:800;
+  color:white;
+  transition:width 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+  min-width:35px;
+  background:linear-gradient(90deg, var(--primary), var(--secondary));
+  position:relative;
+  overflow:hidden;
 }
 
-.progress-bar.color1{background:linear-gradient(90deg, var(--color1), var(--color1))}
-.progress-bar.color2{background:linear-gradient(90deg, var(--color2), var(--color2))}
-.progress-bar.color3{background:linear-gradient(90deg, var(--color3), var(--color3))}
-.progress-bar.color4{background:linear-gradient(90deg, var(--color4), var(--color4))}
+.progress-bar::after{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  animation:shimmer 2s infinite;
+}
+
+@keyframes shimmer{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(100%)}
+}
 
 .percentage{
-  font-size:12px;
-  color:var(--muted);
-  margin-top:6px;
+  font-size:13px;
+  color:var(--primary);
+  font-weight:700;
   text-align:right;
 }
 
-.stat-comparison{
-  display:flex;
-  gap:4px;
-  margin-top:8px;
-  align-items:center;
-}
-
-.stat-comparison-item{
-  flex:1;
-  height:8px;
-  border-radius:4px;
-  background:rgba(0,0,0,0.3);
-}
-
-.stat-comparison-item.color1{background:var(--color1)}
-.stat-comparison-item.color2{background:var(--color2)}
-.stat-comparison-item.color3{background:var(--color3)}
-.stat-comparison-item.color4{background:var(--color4)}
-
 .stats-footer{
-  margin-top:16px;
-  padding-top:12px;
-  border-top:1px dashed var(--border);
+  margin-top:20px;
+  padding-top:16px;
+  border-top:2px dashed var(--border);
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:14px;
   font-size:13px;
 }
 
 .stat-meta{
-  background:rgba(34,197,94,0.05);
-  padding:8px 12px;
-  border-radius:6px;
-  border-left:3px solid var(--accent);
+  background:linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+  padding:12px 14px;
+  border-radius:8px;
+  border-left:4px solid var(--primary);
+  font-weight:700;
 }
 
 .stat-meta strong{
-  color:var(--text);
+  color:var(--accent);
 }
 
 @media(max-width:900px){
   .grid{grid-template-columns:1fr}
-  header h1{font-size:24px}
-  .tabs{gap:4px}
-  .tab-btn{padding:10px 14px;font-size:13px}
+  header h1{font-size:28px}
+  .tabs{gap:8px}
+  .tab-btn{padding:12px 16px;font-size:13px}
 }
 
 @media(max-width:600px){
-  header{padding:16px 12px}
+  header{padding:20px 16px}
   main{padding:0 12px 32px}
-  .card{padding:16px}
-  .btn{padding:10px 14px;font-size:13px}
-  .row{gap:8px}
-  .stats-header{flex-direction:column;align-items:flex-start;gap:8px}
+  .card{padding:18px}
+  .btn{padding:10px 16px;font-size:12px}
+  .row{gap:10px}
+  .stats-header{flex-direction:column;align-items:flex-start;gap:10px}
   .stats-footer{grid-template-columns:1fr}
+  .total-votes-number{font-size:32px}
 }
 </style>
 </head>
@@ -669,77 +668,77 @@ input::placeholder{
 
 <header>
   <h1>🗳️ E-Voting System</h1>
-  <p class="muted">Secure & Transparent Election Platform</p>
+  <p>Secure • Transparent • Democratic</p>
 </header>
 
 <main>
 
 <!-- TAB NAVIGATION -->
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab(event, 'voter')">🗳️ Voter Panel</button>
-  <button class="tab-btn" onclick="switchTab(event, 'board')">📋 Public Board</button>
-  <button class="tab-btn" onclick="switchTab(event, 'admin')">🔐 Admin Access</button>
+  <button class="tab-btn active" onclick="switchTab(event, 'voter')">🗳️ Cast Vote</button>
+  <button class="tab-btn" onclick="switchTab(event, 'board')">📊 Live Board</button>
+  <button class="tab-btn" onclick="switchTab(event, 'admin')">🔐 Admin</button>
 </div>
 
 <!-- VOTER TAB -->
 <div id="voter" class="tab-content active">
   <div class="grid">
     <section class="card">
-      <h2>Cast Your Vote</h2>
+      <h2>Your Voting Ballot</h2>
       
       <div class="field">
         <label for="voterId">Voter ID</label>
         <input 
           id="voterId" 
           type="text" 
-          placeholder="e.g., VOTER001"
+          placeholder="Enter Voter ID"
           pattern="[A-Z0-9]{1,20}"
           title="Voter ID must contain only uppercase letters and numbers"
         >
       </div>
 
-      <button class="btn primary" id="issueBtn">Issue Credential</button>
+      <button class="btn primary" id="issueBtn" style="width:100%">Get Credential</button>
       
       <div id="eligibilityMsg"></div>
 
       <div id="ballot" class="hidden">
         <div class="credential-box">
-          <span class="label">Your Credential</span>
+          <span class="label">✓ Your Credential</span>
           <span class="value" id="cred"></span>
         </div>
 
-        <h3 style="margin-top:0;margin-bottom:12px;font-size:15px">Select a Candidate</h3>
+        <h3 style="margin:16px 0 14px 0;font-size:16px;font-weight:800;color:var(--text)">Select Your Candidate</h3>
         
         <div class="list">
           <label class="item candidate-item">
             <input type="radio" name="candidate" value="AMURA JORDAN">
-            <span class="candidate-name">AMURA JORDAN</span>
+            <span class="candidate-name">🎯 AMURA JORDAN</span>
           </label>
           <label class="item candidate-item">
             <input type="radio" name="candidate" value="BADA FRANK JB">
-            <span class="candidate-name">BADA FRANK JB</span>
+            <span class="candidate-name">⭐ BADA FRANK JB</span>
           </label>
           <label class="item candidate-item">
             <input type="radio" name="candidate" value="JERRY JULIUS">
-            <span class="candidate-name">JERRY JULIUS</span>
+            <span class="candidate-name">🚀 JERRY JULIUS</span>
           </label>
           <label class="item candidate-item">
             <input type="radio" name="candidate" value="JOJO PETER">
-            <span class="candidate-name">JOJO PETER</span>
+            <span class="candidate-name">💎 JOJO PETER</span>
           </label>
         </div>
 
-        <button class="btn primary" id="castBtn" style="margin-top:16px;width:100%">Cast Vote</button>
+        <button class="btn primary" id="castBtn" style="margin-top:18px;width:100%">Cast Vote</button>
         
         <div id="castMsg"></div>
 
         <div id="receipt" class="hidden">
           <div class="tracker-box">
-            <span class="label">Vote Tracker ID</span>
+            <span class="label">✓ Vote Tracker</span>
             <span class="value" id="tracker"></span>
           </div>
           <p class="muted" style="text-align:center;margin-top:12px">
-            ✓ Keep this tracker for your records. You can verify your vote on the Public Board.
+            ✓ Save this ID to verify your vote anytime
           </p>
         </div>
       </div>
@@ -748,8 +747,8 @@ input::placeholder{
     <section class="card">
       <h2>Election Status</h2>
       <div id="statusBox"></div>
-      <p class="muted" style="margin:12px 0 0 0">
-        📍 <strong>Status:</strong> Live and accepting votes
+      <p class="muted" style="margin:16px 0 0 0;font-size:13px">
+        📍 Real-time election monitoring
       </p>
     </section>
   </div>
@@ -759,32 +758,29 @@ input::placeholder{
 <div id="board" class="tab-content">
   <div class="grid">
     <section class="card">
-      <h2>Public Bulletin Board</h2>
-      <p class="muted">Transparent vote tracker - Verification Only</p>
-      <p class="info" style="color:#60a5fa;margin:12px 0">
-        🔍 Enter your tracker ID below to verify your vote was recorded
-      </p>
+      <h2>Vote Verification</h2>
+      <p class="muted">Enter your tracker ID to verify your vote</p>
 
-      <div class="field">
-        <label for="trackerSearch">Search Your Vote</label>
+      <div class="field" style="margin-top:14px">
+        <label for="trackerSearch">Search Tracker ID</label>
         <input 
           id="trackerSearch" 
           type="text" 
-          placeholder="Enter your tracker ID"
+          placeholder="Paste your tracker ID here"
         >
-        <button class="btn" id="searchBtn" style="margin-top:8px;width:100%">Search</button>
+        <button class="btn primary" id="searchBtn" style="margin-top:10px;width:100%">Verify</button>
       </div>
 
       <div id="searchResult"></div>
 
       <hr class="divider">
       
-      <h3 style="margin-top:0;margin-bottom:12px;font-size:14px">All Recorded Trackers</h3>
+      <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">All Trackers</h3>
       <div id="boardList" class="list"></div>
     </section>
 
     <section class="card">
-      <h2>Live Voting Statistics</h2>
+      <h2>Live Statistics</h2>
       <div id="stats"></div>
     </section>
   </div>
@@ -793,67 +789,67 @@ input::placeholder{
 <!-- ADMIN TAB (SECURE) -->
 <div id="admin" class="tab-content">
   <section class="card">
-    <h2>Admin Control Panel</h2>
+    <h2>Admin Control</h2>
     
     <div class="admin-lock" id="adminLock">
       <div class="lock-icon">🔐</div>
-      <p style="margin:8px 0;font-weight:600">Admin Authentication Required</p>
-      <p class="muted" style="margin:6px 0 12px 0">Enter password to access admin features</p>
+      <p style="margin:10px 0;font-weight:800;color:var(--text)">Admin Authentication</p>
+      <p class="muted" style="margin:6px 0 18px 0">Enter password to unlock</p>
       
       <div class="field">
-        <label for="adminPass">Admin Password</label>
+        <label for="adminPass">Password</label>
         <input 
           id="adminPass" 
           type="password" 
-          placeholder="Enter secure password"
+          placeholder="Enter admin password"
           autocomplete="off"
         >
       </div>
 
-      <button class="btn warning" id="unlockBtn" style="width:100%">Unlock Admin Panel</button>
+      <button class="btn warning" id="unlockBtn" style="width:100%">Unlock</button>
       <div id="authMsg"></div>
     </div>
 
     <div id="adminPanel" class="hidden">
       <div class="alert success">
-        ✓ Admin panel unlocked. Handle with care.
+        ✓ Admin Panel Unlocked
       </div>
 
       <div class="grid" style="grid-template-columns:1fr">
         <div>
-          <h3 style="margin:0 0 12px 0;font-size:15px">Election Control</h3>
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">Controls</h3>
           <div class="row">
-            <button class="btn warning" id="closeBtn">Close Election</button>
-            <button class="btn primary" id="tallyBtn">Tally Results</button>
+            <button class="btn warning" id="closeBtn" style="flex:1">Close Election</button>
+            <button class="btn primary" id="tallyBtn" style="flex:1">Tally Results</button>
           </div>
-          <p id="adminMsg" class="muted"></p>
+          <p id="adminMsg" class="muted" style="margin-top:12px"></p>
         </div>
 
         <hr class="divider">
 
         <div id="resultsSection" class="hidden">
-          <h3 style="margin:0 0 12px 0;font-size:15px">Final Results</h3>
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">Final Results</h3>
           <div id="results" class="results-grid"></div>
         </div>
 
         <hr class="divider">
 
         <div>
-          <h3 style="margin:0 0 12px 0;font-size:15px">System Audit</h3>
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">System</h3>
           <div class="row">
-            <button class="btn" id="auditBtn" style="flex:1">View Audit Log</button>
-            <button class="btn" id="resetBtn" style="flex:1">Reset System</button>
+            <button class="btn" id="auditBtn" style="flex:1">Audit Log</button>
+            <button class="btn danger" id="resetBtn" style="flex:1">Reset</button>
           </div>
         </div>
 
         <div id="auditLog" class="hidden">
           <hr class="divider">
-          <h3 style="margin:0 0 12px 0;font-size:15px">Audit Trail</h3>
+          <h3 style="margin:0 0 14px 0;font-size:15px;font-weight:800">Audit Trail</h3>
           <div id="auditContent" class="list"></div>
         </div>
       </div>
 
-      <button class="btn danger" id="lockBtn" style="margin-top:20px;width:100%">Lock Admin Panel</button>
+      <button class="btn danger" id="lockBtn" style="margin-top:20px;width:100%">Lock</button>
     </div>
   </section>
 </div>
@@ -863,7 +859,6 @@ input::placeholder{
 <script>
 const ADMIN_PASSWORD = "JORDAN";
 const candidates = ["AMURA JORDAN", "BADA FRANK JB", "JERRY JULIUS", "JOJO PETER"];
-const candidateColors = ["color1", "color2", "color3", "color4"];
 
 const state = {
   electionOpen: true,
@@ -939,15 +934,15 @@ function logAudit(action, details) {
 
 function updateStatusBox() {
   const statusText = state.electionOpen 
-    ? "🟢 Election is OPEN - Accepting votes"
-    : "🔴 Election is CLOSED - No more votes accepted";
+    ? "🟢 ELECTION OPEN"
+    : "🔴 ELECTION CLOSED";
   
   el.statusBox.innerHTML = `
     <div class="alert ${state.electionOpen ? 'success' : 'error'}">
       ${statusText}
     </div>
-    <p class="muted" style="margin:12px 0 0 0">
-      Total votes cast: <strong>${state.board.length}</strong>
+    <p class="muted" style="margin:14px 0 0 0;font-size:14px;font-weight:700">
+      Total Votes: <span style="color:var(--primary)">${state.board.length}</span>
     </p>
   `;
 }
@@ -973,18 +968,18 @@ el.issueBtn.onclick = () => {
   }
   
   if (!state.registry.has(id)) {
-    showAlert("eligibilityMsg", "❌ Voter ID not found in registry", "error");
+    showAlert("eligibilityMsg", "❌ Voter ID not in registry", "error");
     logAudit("FAILED_ISSUE", `Invalid voter ID: ${id}`);
     return;
   }
   
   if (!state.electionOpen) {
-    showAlert("eligibilityMsg", "❌ Election is closed - credentials cannot be issued", "error");
+    showAlert("eligibilityMsg", "❌ Election is closed", "error");
     return;
   }
   
   if (state.issued.has(id) && state.spent.has(state.issued.get(id))) {
-    showAlert("eligibilityMsg", "❌ This voter has already voted", "error");
+    showAlert("eligibilityMsg", "❌ Already voted", "error");
     logAudit("DUPLICATE_VOTE_ATTEMPT", `Voter ${id} attempted to vote twice`);
     return;
   }
@@ -993,7 +988,7 @@ el.issueBtn.onclick = () => {
   state.issued.set(id, c);
   el.cred.textContent = c;
   el.ballot.classList.remove("hidden");
-  showAlert("eligibilityMsg", "✓ Credential issued successfully", "success");
+  showAlert("eligibilityMsg", "✓ Credential issued", "success");
   logAudit("CREDENTIAL_ISSUED", `Voter ${id}`);
 };
 
@@ -1002,24 +997,24 @@ el.castBtn.onclick = () => {
   const c = state.issued.get(id);
   
   if (!c) {
-    showAlert("castMsg", "❌ Please issue a credential first", "error");
+    showAlert("castMsg", "❌ Get credential first", "error");
     return;
   }
   
   if (state.spent.has(c)) {
-    showAlert("castMsg", "❌ This credential has already been used", "error");
+    showAlert("castMsg", "❌ Credential already used", "error");
     logAudit("DUPLICATE_CREDENTIAL", `Credential ${c} reuse attempt`);
     return;
   }
   
   if (!state.electionOpen) {
-    showAlert("castMsg", "❌ Election is closed - votes cannot be cast", "error");
+    showAlert("castMsg", "❌ Election closed", "error");
     return;
   }
   
   const choice = document.querySelector("input[name='candidate']:checked")?.value;
   if (!choice) {
-    showAlert("castMsg", "❌ Please select a candidate before voting", "error");
+    showAlert("castMsg", "❌ Select a candidate", "error");
     return;
   }
   
@@ -1042,7 +1037,7 @@ el.searchBtn.onclick = () => {
   const tracker = el.trackerSearch.value.trim();
   
   if (!tracker) {
-    showAlert("searchResult", "❌ Please enter a tracker ID", "error");
+    showAlert("searchResult", "❌ Enter tracker ID", "error");
     return;
   }
   
@@ -1050,25 +1045,25 @@ el.searchBtn.onclick = () => {
   
   if (vote) {
     showAlert("searchResult", 
-      `✓ Vote found! Candidate: <strong>${vote.choice}</strong>`, 
+      `✓ Found! Candidate: <strong>${vote.choice}</strong>`, 
       "success"
     );
   } else {
-    showAlert("searchResult", "❌ Tracker ID not found in public records", "error");
+    showAlert("searchResult", "❌ Tracker not found", "error");
   }
 };
 
 function renderBoard() {
   el.boardList.innerHTML = "";
   if (state.board.length === 0) {
-    el.boardList.innerHTML = '<div class="muted">No votes recorded yet</div>';
+    el.boardList.innerHTML = '<div class="muted">No votes yet</div>';
     return;
   }
   
   state.board.forEach(b => {
     el.boardList.innerHTML += `
-      <div class="item mono" style="word-break:break-all;font-size:12px">
-        <strong>ID:</strong> ${b.tracker}
+      <div class="item mono" style="word-break:break-all;font-size:12px;font-weight:600">
+        ${b.tracker}
       </div>
     `;
   });
@@ -1086,9 +1081,9 @@ function updateStats() {
     <div class="stats-header">
       <div class="total-votes">
         <span class="total-votes-number">${totalVotes}</span>
-        <span>Total Votes</span>
+        <span style="color:var(--text-muted);font-size:14px;font-weight:700">Votes Cast</span>
       </div>
-      <div class="live-indicator">Live Update</div>
+      <div class="live-indicator">● LIVE</div>
     </div>
   `;
   
@@ -1096,23 +1091,22 @@ function updateStats() {
     const votes = count[candidate];
     const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(1) : 0;
     const barWidth = totalVotes > 0 ? (votes / maxVotes) * 100 : 0;
-    const color = candidateColors[index];
     
     html += `
-      <div class="candidate-stat ${color}">
+      <div class="candidate-stat">
         <div class="stat-row">
-          <div class="stat-name">📊 ${candidate}</div>
+          <div class="stat-name">${candidate}</div>
           <div class="stat-count">${votes}</div>
         </div>
         
         <div class="progress-bar-container">
-          <div class="progress-bar ${color}" style="width:${barWidth}%">
+          <div class="progress-bar" style="width:${barWidth}%">
             ${percentage}%
           </div>
         </div>
         
         <div class="percentage">
-          ${percentage}% of votes
+          ${percentage}% of total votes
         </div>
       </div>
     `;
@@ -1121,10 +1115,10 @@ function updateStats() {
   html += `
     <div class="stats-footer">
       <div class="stat-meta">
-        <strong>Leading:</strong> ${maxVotes > 0 ? candidates[candidates.findIndex(c => count[c] === maxVotes)] : 'N/A'}
+        🏆 Leading: ${maxVotes > 0 ? candidates[candidates.findIndex(c => count[c] === maxVotes)] : 'N/A'}
       </div>
       <div class="stat-meta">
-        <strong>Updated:</strong> ${new Date().toLocaleTimeString()}
+        🕐 Updated: ${new Date().toLocaleTimeString()}
       </div>
     </div>
   `;
@@ -1137,7 +1131,7 @@ el.unlockBtn.onclick = () => {
   const password = el.adminPass.value;
   
   if (!password) {
-    showAlert("authMsg", "❌ Please enter the admin password", "error");
+    showAlert("authMsg", "❌ Enter password", "error");
     return;
   }
   
@@ -1147,7 +1141,7 @@ el.unlockBtn.onclick = () => {
     showAlert("authMsg", "");
     logAudit("ADMIN_LOGIN", "Admin panel accessed");
   } else {
-    showAlert("authMsg", "❌ Invalid password", "error");
+    showAlert("authMsg", "❌ Wrong password", "error");
     logAudit("FAILED_LOGIN", "Incorrect admin password");
   }
 };
@@ -1164,17 +1158,17 @@ el.lockBtn.onclick = () => {
 el.closeBtn.onclick = () => {
   if (state.electionOpen) {
     state.electionOpen = false;
-    showAlert("adminMsg", "✓ Election closed successfully", "success");
+    showAlert("adminMsg", "✓ Election closed", "success");
     logAudit("ELECTION_CLOSED", "Admin closed the election");
     updateStatusBox();
   } else {
-    showAlert("adminMsg", "⚠ Election is already closed", "warning");
+    showAlert("adminMsg", "⚠ Already closed", "warning");
   }
 };
 
 el.tallyBtn.onclick = () => {
   if (state.electionOpen) {
-    showAlert("adminMsg", "❌ Election must be closed before tallying", "error");
+    showAlert("adminMsg", "❌ Close election first", "error");
     return;
   }
   
@@ -1185,7 +1179,6 @@ el.tallyBtn.onclick = () => {
   
   candidates.forEach((candidate, index) => {
     const votes = count[candidate] || 0;
-    const color = candidateColors[index];
     el.results.innerHTML += `
       <div class="result-item">
         <span class="result-name">${candidate}</span>
@@ -1195,7 +1188,7 @@ el.tallyBtn.onclick = () => {
   });
   
   el.resultsSection.classList.remove("hidden");
-  showAlert("adminMsg", "✓ Results tallied successfully", "success");
+  showAlert("adminMsg", "✓ Results tallied", "success");
   logAudit("RESULTS_TALLIED", `Total votes: ${state.board.length}`);
 };
 
@@ -1206,7 +1199,7 @@ el.auditBtn.onclick = () => {
     el.auditContent.innerHTML = "";
     
     if (state.auditLog.length === 0) {
-      el.auditContent.innerHTML = '<div class="muted">No audit events recorded</div>';
+      el.auditContent.innerHTML = '<div class="muted">No events</div>';
       return;
     }
     
@@ -1214,7 +1207,7 @@ el.auditBtn.onclick = () => {
       el.auditContent.innerHTML += `
         <div class="item mono" style="font-size:12px">
           <div><strong>${log.timestamp}</strong></div>
-          <div style="color:var(--accent);margin-top:4px">${log.action}</div>
+          <div style="color:var(--primary);margin-top:4px;font-weight:700">${log.action}</div>
           <div class="muted">${log.details}</div>
         </div>
       `;
@@ -1223,8 +1216,8 @@ el.auditBtn.onclick = () => {
 };
 
 el.resetBtn.onclick = () => {
-  if (confirm("⚠️ WARNING: This will reset the entire system. Are you sure?")) {
-    if (confirm("⚠️ CONFIRM: This action cannot be undone!")) {
+  if (confirm("⚠️ Reset system?")) {
+    if (confirm("⚠️ This cannot be undone!")) {
       state.electionOpen = true;
       state.issued.clear();
       state.spent.clear();
@@ -1240,7 +1233,7 @@ el.resetBtn.onclick = () => {
       el.auditContent.innerHTML = "";
       el.auditLog.classList.add("hidden");
       
-      showAlert("adminMsg", "✓ System reset complete", "success");
+      showAlert("adminMsg", "✓ System reset", "success");
       logAudit("SYSTEM_RESET", "All data cleared");
       updateStatusBox();
       updateStats();
